@@ -1,0 +1,505 @@
+#Note that although this script is currently found in /Scripts/1.mainAnalysis/, it should be placed in ../..
+#It is here only since there are multiple Snakefiles in the project and they can get confused
+
+CHR_1 = ["c1"]
+CHR_2 = ["c2"]
+CHR_3 = ["c3"]
+CHR_4 = ["c4"]
+CHR_5 = ["c5"]
+CHR_6 = ["c6"]
+CHR_7 = ["c7"]
+CHR_8 = ["c8"]
+CHR_9 = ["c9"]
+CHR_10 = ["c10"]
+CHR_11 = ["c11"]
+CHR_12 = ["c12"]
+CHR_13 = ["c13"]
+CHR_14 = ["c14"]
+CHR_15 = ["c15"]
+CHR_16 = ["c16"]
+CHR_17 = ["c17"]
+CHR_18 = ["c18"]
+CHR_19 = ["c19"]
+CHR_20 = ["c20"]
+CHR_21 = ["c21"]
+CHR_22 = ["c22"]
+
+TEST_1 = ["130000"]
+TEST_2 = ["140000"]
+TEST_3 = ["145000"]
+TEST_4 = ["150000"]
+
+REF = ["100", "500", "1000", "5000", "10000"]
+
+TRAIT_1 = ["ApolipoproteinA"]
+TRAIT_2 = ["meanSpheredCellVolume", "glycatedHaemoglobin", "totalBilirubin"]
+TRAIT_3 = ["meanCorpuscularVolume", "meanCorpuscularHaemoglobin", "redBloodCellErythrocyteDistributionWidth", "plateletCount", "MeanPlateletThrombocyteVolume"]
+TRAIT_4 = ["standingHeight"]
+
+#Create vector of genes for each of the chromosomes
+GENES_1 = [x.split('	')[0] for x in open("Genes/c1.genes").readlines()]
+GENES_2 = [x.split('	')[0] for x in open("Genes/c2.genes").readlines()]
+GENES_3 = [x.split('	')[0] for x in open("Genes/c3.genes").readlines()]
+GENES_4 = [x.split('	')[0] for x in open("Genes/c4.genes").readlines()]
+GENES_5 = [x.split('	')[0] for x in open("Genes/c5.genes").readlines()]
+GENES_6 = [x.split('	')[0] for x in open("Genes/c6.genes").readlines()]
+GENES_7 = [x.split('	')[0] for x in open("Genes/c7.genes").readlines()]
+GENES_8 = [x.split('	')[0] for x in open("Genes/c8.genes").readlines()]
+GENES_9 = [x.split('	')[0] for x in open("Genes/c9.genes").readlines()]
+GENES_10 = [x.split('	')[0] for x in open("Genes/c10.genes").readlines()]
+GENES_11 = [x.split('	')[0] for x in open("Genes/c11.genes").readlines()]
+GENES_12 = [x.split('	')[0] for x in open("Genes/c12.genes").readlines()]
+GENES_13 = [x.split('	')[0] for x in open("Genes/c13.genes").readlines()]
+GENES_14 = [x.split('	')[0] for x in open("Genes/c14.genes").readlines()]
+GENES_15 = [x.split('	')[0] for x in open("Genes/c15.genes").readlines()]
+GENES_16 = [x.split('	')[0] for x in open("Genes/c16.genes").readlines()]
+GENES_17 = [x.split('	')[0] for x in open("Genes/c17.genes").readlines()]
+GENES_18 = [x.split('	')[0] for x in open("Genes/c18.genes").readlines()]
+GENES_19 = [x.split('	')[0] for x in open("Genes/c19.genes").readlines()]
+GENES_20 = [x.split('	')[0] for x in open("Genes/c20.genes").readlines()]
+GENES_21 = [x.split('	')[0] for x in open("Genes/c21.genes").readlines()]
+GENES_22 = [x.split('	')[0] for x in open("Genes/c22.genes").readlines()]
+
+localrules: raremetal_files, ss_residual_variance
+
+#Create all rule that requests all possible combinations of {chr}, {gene}, {test}, {ref}, and {trait}
+rule all:
+	input:
+		expand("raremetalNew/burden/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_1, gene = GENES_1, test = TEST_1, ref = REF, trait = TRAIT_1),
+		expand("raremetalNew/burden/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_2, gene = GENES_2, test = TEST_1, ref = REF, trait = TRAIT_1),
+		expand("raremetalNew/burden/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_3, gene = GENES_3, test = TEST_1, ref = REF, trait = TRAIT_1),
+		expand("raremetalNew/burden/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_4, gene = GENES_4, test = TEST_1, ref = REF, trait = TRAIT_1),
+		expand("raremetalNew/burden/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_5, gene = GENES_5, test = TEST_1, ref = REF, trait = TRAIT_1),
+		expand("raremetalNew/burden/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_6, gene = GENES_6, test = TEST_1, ref = REF, trait = TRAIT_1),
+		expand("raremetalNew/burden/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_7, gene = GENES_7, test = TEST_1, ref = REF, trait = TRAIT_1),
+		expand("raremetalNew/burden/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_8, gene = GENES_8, test = TEST_1, ref = REF, trait = TRAIT_1),
+		expand("raremetalNew/burden/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_9, gene = GENES_9, test = TEST_1, ref = REF, trait = TRAIT_1),
+		expand("raremetalNew/burden/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_10, gene = GENES_10, test = TEST_1, ref = REF, trait = TRAIT_1),
+		expand("raremetalNew/burden/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_11, gene = GENES_11, test = TEST_1, ref = REF, trait = TRAIT_1),
+		expand("raremetalNew/burden/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_12, gene = GENES_12, test = TEST_1, ref = REF, trait = TRAIT_1),
+		expand("raremetalNew/burden/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_13, gene = GENES_13, test = TEST_1, ref = REF, trait = TRAIT_1),
+		expand("raremetalNew/burden/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_14, gene = GENES_14, test = TEST_1, ref = REF, trait = TRAIT_1),
+		expand("raremetalNew/burden/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_15, gene = GENES_15, test = TEST_1, ref = REF, trait = TRAIT_1),
+		expand("raremetalNew/burden/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_16, gene = GENES_16, test = TEST_1, ref = REF, trait = TRAIT_1),
+		expand("raremetalNew/burden/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_17, gene = GENES_17, test = TEST_1, ref = REF, trait = TRAIT_1),
+		expand("raremetalNew/burden/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_18, gene = GENES_18, test = TEST_1, ref = REF, trait = TRAIT_1),
+		expand("raremetalNew/burden/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_19, gene = GENES_19, test = TEST_1, ref = REF, trait = TRAIT_1),
+		expand("raremetalNew/burden/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_20, gene = GENES_20, test = TEST_1, ref = REF, trait = TRAIT_1),
+		expand("raremetalNew/burden/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_21, gene = GENES_21, test = TEST_1, ref = REF, trait = TRAIT_1),
+		expand("raremetalNew/burden/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_22, gene = GENES_22, test = TEST_1, ref = REF, trait = TRAIT_1),
+		expand("raremetalNew/burden/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_1, gene = GENES_1, test = TEST_2, ref = REF, trait = TRAIT_2),
+		expand("raremetalNew/burden/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_2, gene = GENES_2, test = TEST_2, ref = REF, trait = TRAIT_2),
+		expand("raremetalNew/burden/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_3, gene = GENES_3, test = TEST_2, ref = REF, trait = TRAIT_2),
+		expand("raremetalNew/burden/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_4, gene = GENES_4, test = TEST_2, ref = REF, trait = TRAIT_2),
+		expand("raremetalNew/burden/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_5, gene = GENES_5, test = TEST_2, ref = REF, trait = TRAIT_2),
+		expand("raremetalNew/burden/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_6, gene = GENES_6, test = TEST_2, ref = REF, trait = TRAIT_2),
+		expand("raremetalNew/burden/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_7, gene = GENES_7, test = TEST_2, ref = REF, trait = TRAIT_2),
+		expand("raremetalNew/burden/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_8, gene = GENES_8, test = TEST_2, ref = REF, trait = TRAIT_2),
+		expand("raremetalNew/burden/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_9, gene = GENES_9, test = TEST_2, ref = REF, trait = TRAIT_2),
+		expand("raremetalNew/burden/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_10, gene = GENES_10, test = TEST_2, ref = REF, trait = TRAIT_2),
+		expand("raremetalNew/burden/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_11, gene = GENES_11, test = TEST_2, ref = REF, trait = TRAIT_2),
+		expand("raremetalNew/burden/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_12, gene = GENES_12, test = TEST_2, ref = REF, trait = TRAIT_2),
+		expand("raremetalNew/burden/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_13, gene = GENES_13, test = TEST_2, ref = REF, trait = TRAIT_2),
+		expand("raremetalNew/burden/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_14, gene = GENES_14, test = TEST_2, ref = REF, trait = TRAIT_2),
+		expand("raremetalNew/burden/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_15, gene = GENES_15, test = TEST_2, ref = REF, trait = TRAIT_2),
+		expand("raremetalNew/burden/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_16, gene = GENES_16, test = TEST_2, ref = REF, trait = TRAIT_2),
+		expand("raremetalNew/burden/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_17, gene = GENES_17, test = TEST_2, ref = REF, trait = TRAIT_2),
+		expand("raremetalNew/burden/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_18, gene = GENES_18, test = TEST_2, ref = REF, trait = TRAIT_2),
+		expand("raremetalNew/burden/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_19, gene = GENES_19, test = TEST_2, ref = REF, trait = TRAIT_2),
+		expand("raremetalNew/burden/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_20, gene = GENES_20, test = TEST_2, ref = REF, trait = TRAIT_2),
+		expand("raremetalNew/burden/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_21, gene = GENES_21, test = TEST_2, ref = REF, trait = TRAIT_2),
+		expand("raremetalNew/burden/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_22, gene = GENES_22, test = TEST_2, ref = REF, trait = TRAIT_2),
+		expand("raremetalNew/burden/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_1, gene = GENES_1, test = TEST_3, ref = REF, trait = TRAIT_3),
+		expand("raremetalNew/burden/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_2, gene = GENES_2, test = TEST_3, ref = REF, trait = TRAIT_3),
+		expand("raremetalNew/burden/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_3, gene = GENES_3, test = TEST_3, ref = REF, trait = TRAIT_3),
+		expand("raremetalNew/burden/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_4, gene = GENES_4, test = TEST_3, ref = REF, trait = TRAIT_3),
+		expand("raremetalNew/burden/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_5, gene = GENES_5, test = TEST_3, ref = REF, trait = TRAIT_3),
+		expand("raremetalNew/burden/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_6, gene = GENES_6, test = TEST_3, ref = REF, trait = TRAIT_3),
+		expand("raremetalNew/burden/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_7, gene = GENES_7, test = TEST_3, ref = REF, trait = TRAIT_3),
+		expand("raremetalNew/burden/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_8, gene = GENES_8, test = TEST_3, ref = REF, trait = TRAIT_3),
+		expand("raremetalNew/burden/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_9, gene = GENES_9, test = TEST_3, ref = REF, trait = TRAIT_3),
+		expand("raremetalNew/burden/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_10, gene = GENES_10, test = TEST_3, ref = REF, trait = TRAIT_3),
+		expand("raremetalNew/burden/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_11, gene = GENES_11, test = TEST_3, ref = REF, trait = TRAIT_3),
+		expand("raremetalNew/burden/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_12, gene = GENES_12, test = TEST_3, ref = REF, trait = TRAIT_3),
+		expand("raremetalNew/burden/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_13, gene = GENES_13, test = TEST_3, ref = REF, trait = TRAIT_3),
+		expand("raremetalNew/burden/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_14, gene = GENES_14, test = TEST_3, ref = REF, trait = TRAIT_3),
+		expand("raremetalNew/burden/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_15, gene = GENES_15, test = TEST_3, ref = REF, trait = TRAIT_3),
+		expand("raremetalNew/burden/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_16, gene = GENES_16, test = TEST_3, ref = REF, trait = TRAIT_3),
+		expand("raremetalNew/burden/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_17, gene = GENES_17, test = TEST_3, ref = REF, trait = TRAIT_3),
+		expand("raremetalNew/burden/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_18, gene = GENES_18, test = TEST_3, ref = REF, trait = TRAIT_3),
+		expand("raremetalNew/burden/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_19, gene = GENES_19, test = TEST_3, ref = REF, trait = TRAIT_3),
+		expand("raremetalNew/burden/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_20, gene = GENES_20, test = TEST_3, ref = REF, trait = TRAIT_3),
+		expand("raremetalNew/burden/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_21, gene = GENES_21, test = TEST_3, ref = REF, trait = TRAIT_3),
+		expand("raremetalNew/burden/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_22, gene = GENES_22, test = TEST_3, ref = REF, trait = TRAIT_3),
+		expand("raremetalNew/burden/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_1, gene = GENES_1, test = TEST_4, ref = REF, trait = TRAIT_4),
+		expand("raremetalNew/burden/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_2, gene = GENES_2, test = TEST_4, ref = REF, trait = TRAIT_4),
+		expand("raremetalNew/burden/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_3, gene = GENES_3, test = TEST_4, ref = REF, trait = TRAIT_4),
+		expand("raremetalNew/burden/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_4, gene = GENES_4, test = TEST_4, ref = REF, trait = TRAIT_4),
+		expand("raremetalNew/burden/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_5, gene = GENES_5, test = TEST_4, ref = REF, trait = TRAIT_4),
+		expand("raremetalNew/burden/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_6, gene = GENES_6, test = TEST_4, ref = REF, trait = TRAIT_4),
+		expand("raremetalNew/burden/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_7, gene = GENES_7, test = TEST_4, ref = REF, trait = TRAIT_4),
+		expand("raremetalNew/burden/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_8, gene = GENES_8, test = TEST_4, ref = REF, trait = TRAIT_4),
+		expand("raremetalNew/burden/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_9, gene = GENES_9, test = TEST_4, ref = REF, trait = TRAIT_4),
+		expand("raremetalNew/burden/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_10, gene = GENES_10, test = TEST_4, ref = REF, trait = TRAIT_4),
+		expand("raremetalNew/burden/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_11, gene = GENES_11, test = TEST_4, ref = REF, trait = TRAIT_4),
+		expand("raremetalNew/burden/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_12, gene = GENES_12, test = TEST_4, ref = REF, trait = TRAIT_4),
+		expand("raremetalNew/burden/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_13, gene = GENES_13, test = TEST_4, ref = REF, trait = TRAIT_4),
+		expand("raremetalNew/burden/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_14, gene = GENES_14, test = TEST_4, ref = REF, trait = TRAIT_4),
+		expand("raremetalNew/burden/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_15, gene = GENES_15, test = TEST_4, ref = REF, trait = TRAIT_4),
+		expand("raremetalNew/burden/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_16, gene = GENES_16, test = TEST_4, ref = REF, trait = TRAIT_4),
+		expand("raremetalNew/burden/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_17, gene = GENES_17, test = TEST_4, ref = REF, trait = TRAIT_4),
+		expand("raremetalNew/burden/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_18, gene = GENES_18, test = TEST_4, ref = REF, trait = TRAIT_4),
+		expand("raremetalNew/burden/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_19, gene = GENES_19, test = TEST_4, ref = REF, trait = TRAIT_4),
+		expand("raremetalNew/burden/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_20, gene = GENES_20, test = TEST_4, ref = REF, trait = TRAIT_4),
+		expand("raremetalNew/burden/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_21, gene = GENES_21, test = TEST_4, ref = REF, trait = TRAIT_4),
+		expand("raremetalNew/burden/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_22, gene = GENES_22, test = TEST_4, ref = REF, trait = TRAIT_4),
+		expand("raremetalNew/burden/BROADMISSENSE/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_1, gene = GENES_1, test = TEST_1, ref = REF, trait = TRAIT_1),
+		expand("raremetalNew/burden/BROADMISSENSE/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_2, gene = GENES_2, test = TEST_1, ref = REF, trait = TRAIT_1),
+		expand("raremetalNew/burden/BROADMISSENSE/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_3, gene = GENES_3, test = TEST_1, ref = REF, trait = TRAIT_1),
+		expand("raremetalNew/burden/BROADMISSENSE/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_4, gene = GENES_4, test = TEST_1, ref = REF, trait = TRAIT_1),
+		expand("raremetalNew/burden/BROADMISSENSE/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_5, gene = GENES_5, test = TEST_1, ref = REF, trait = TRAIT_1),
+		expand("raremetalNew/burden/BROADMISSENSE/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_6, gene = GENES_6, test = TEST_1, ref = REF, trait = TRAIT_1),
+		expand("raremetalNew/burden/BROADMISSENSE/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_7, gene = GENES_7, test = TEST_1, ref = REF, trait = TRAIT_1),
+		expand("raremetalNew/burden/BROADMISSENSE/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_8, gene = GENES_8, test = TEST_1, ref = REF, trait = TRAIT_1),
+		expand("raremetalNew/burden/BROADMISSENSE/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_9, gene = GENES_9, test = TEST_1, ref = REF, trait = TRAIT_1),
+		expand("raremetalNew/burden/BROADMISSENSE/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_10, gene = GENES_10, test = TEST_1, ref = REF, trait = TRAIT_1),
+		expand("raremetalNew/burden/BROADMISSENSE/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_11, gene = GENES_11, test = TEST_1, ref = REF, trait = TRAIT_1),
+		expand("raremetalNew/burden/BROADMISSENSE/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_12, gene = GENES_12, test = TEST_1, ref = REF, trait = TRAIT_1),
+		expand("raremetalNew/burden/BROADMISSENSE/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_13, gene = GENES_13, test = TEST_1, ref = REF, trait = TRAIT_1),
+		expand("raremetalNew/burden/BROADMISSENSE/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_14, gene = GENES_14, test = TEST_1, ref = REF, trait = TRAIT_1),
+		expand("raremetalNew/burden/BROADMISSENSE/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_15, gene = GENES_15, test = TEST_1, ref = REF, trait = TRAIT_1),
+		expand("raremetalNew/burden/BROADMISSENSE/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_16, gene = GENES_16, test = TEST_1, ref = REF, trait = TRAIT_1),
+		expand("raremetalNew/burden/BROADMISSENSE/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_17, gene = GENES_17, test = TEST_1, ref = REF, trait = TRAIT_1),
+		expand("raremetalNew/burden/BROADMISSENSE/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_18, gene = GENES_18, test = TEST_1, ref = REF, trait = TRAIT_1),
+		expand("raremetalNew/burden/BROADMISSENSE/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_19, gene = GENES_19, test = TEST_1, ref = REF, trait = TRAIT_1),
+		expand("raremetalNew/burden/BROADMISSENSE/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_20, gene = GENES_20, test = TEST_1, ref = REF, trait = TRAIT_1),
+		expand("raremetalNew/burden/BROADMISSENSE/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_21, gene = GENES_21, test = TEST_1, ref = REF, trait = TRAIT_1),
+		expand("raremetalNew/burden/BROADMISSENSE/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_22, gene = GENES_22, test = TEST_1, ref = REF, trait = TRAIT_1),
+		expand("raremetalNew/burden/BROADMISSENSE/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_1, gene = GENES_1, test = TEST_2, ref = REF, trait = TRAIT_2),
+		expand("raremetalNew/burden/BROADMISSENSE/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_2, gene = GENES_2, test = TEST_2, ref = REF, trait = TRAIT_2),
+		expand("raremetalNew/burden/BROADMISSENSE/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_3, gene = GENES_3, test = TEST_2, ref = REF, trait = TRAIT_2),
+		expand("raremetalNew/burden/BROADMISSENSE/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_4, gene = GENES_4, test = TEST_2, ref = REF, trait = TRAIT_2),
+		expand("raremetalNew/burden/BROADMISSENSE/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_5, gene = GENES_5, test = TEST_2, ref = REF, trait = TRAIT_2),
+		expand("raremetalNew/burden/BROADMISSENSE/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_6, gene = GENES_6, test = TEST_2, ref = REF, trait = TRAIT_2),
+		expand("raremetalNew/burden/BROADMISSENSE/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_7, gene = GENES_7, test = TEST_2, ref = REF, trait = TRAIT_2),
+		expand("raremetalNew/burden/BROADMISSENSE/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_8, gene = GENES_8, test = TEST_2, ref = REF, trait = TRAIT_2),
+		expand("raremetalNew/burden/BROADMISSENSE/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_9, gene = GENES_9, test = TEST_2, ref = REF, trait = TRAIT_2),
+		expand("raremetalNew/burden/BROADMISSENSE/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_10, gene = GENES_10, test = TEST_2, ref = REF, trait = TRAIT_2),
+		expand("raremetalNew/burden/BROADMISSENSE/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_11, gene = GENES_11, test = TEST_2, ref = REF, trait = TRAIT_2),
+		expand("raremetalNew/burden/BROADMISSENSE/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_12, gene = GENES_12, test = TEST_2, ref = REF, trait = TRAIT_2),
+		expand("raremetalNew/burden/BROADMISSENSE/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_13, gene = GENES_13, test = TEST_2, ref = REF, trait = TRAIT_2),
+		expand("raremetalNew/burden/BROADMISSENSE/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_14, gene = GENES_14, test = TEST_2, ref = REF, trait = TRAIT_2),
+		expand("raremetalNew/burden/BROADMISSENSE/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_15, gene = GENES_15, test = TEST_2, ref = REF, trait = TRAIT_2),
+		expand("raremetalNew/burden/BROADMISSENSE/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_16, gene = GENES_16, test = TEST_2, ref = REF, trait = TRAIT_2),
+		expand("raremetalNew/burden/BROADMISSENSE/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_17, gene = GENES_17, test = TEST_2, ref = REF, trait = TRAIT_2),
+		expand("raremetalNew/burden/BROADMISSENSE/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_18, gene = GENES_18, test = TEST_2, ref = REF, trait = TRAIT_2),
+		expand("raremetalNew/burden/BROADMISSENSE/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_19, gene = GENES_19, test = TEST_2, ref = REF, trait = TRAIT_2),
+		expand("raremetalNew/burden/BROADMISSENSE/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_20, gene = GENES_20, test = TEST_2, ref = REF, trait = TRAIT_2),
+		expand("raremetalNew/burden/BROADMISSENSE/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_21, gene = GENES_21, test = TEST_2, ref = REF, trait = TRAIT_2),
+		expand("raremetalNew/burden/BROADMISSENSE/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_22, gene = GENES_22, test = TEST_2, ref = REF, trait = TRAIT_2),
+		expand("raremetalNew/burden/BROADMISSENSE/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_1, gene = GENES_1, test = TEST_3, ref = REF, trait = TRAIT_3),
+		expand("raremetalNew/burden/BROADMISSENSE/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_2, gene = GENES_2, test = TEST_3, ref = REF, trait = TRAIT_3),
+		expand("raremetalNew/burden/BROADMISSENSE/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_3, gene = GENES_3, test = TEST_3, ref = REF, trait = TRAIT_3),
+		expand("raremetalNew/burden/BROADMISSENSE/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_4, gene = GENES_4, test = TEST_3, ref = REF, trait = TRAIT_3),
+		expand("raremetalNew/burden/BROADMISSENSE/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_5, gene = GENES_5, test = TEST_3, ref = REF, trait = TRAIT_3),
+		expand("raremetalNew/burden/BROADMISSENSE/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_6, gene = GENES_6, test = TEST_3, ref = REF, trait = TRAIT_3),
+		expand("raremetalNew/burden/BROADMISSENSE/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_7, gene = GENES_7, test = TEST_3, ref = REF, trait = TRAIT_3),
+		expand("raremetalNew/burden/BROADMISSENSE/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_8, gene = GENES_8, test = TEST_3, ref = REF, trait = TRAIT_3),
+		expand("raremetalNew/burden/BROADMISSENSE/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_9, gene = GENES_9, test = TEST_3, ref = REF, trait = TRAIT_3),
+		expand("raremetalNew/burden/BROADMISSENSE/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_10, gene = GENES_10, test = TEST_3, ref = REF, trait = TRAIT_3),
+		expand("raremetalNew/burden/BROADMISSENSE/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_11, gene = GENES_11, test = TEST_3, ref = REF, trait = TRAIT_3),
+		expand("raremetalNew/burden/BROADMISSENSE/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_12, gene = GENES_12, test = TEST_3, ref = REF, trait = TRAIT_3),
+		expand("raremetalNew/burden/BROADMISSENSE/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_13, gene = GENES_13, test = TEST_3, ref = REF, trait = TRAIT_3),
+		expand("raremetalNew/burden/BROADMISSENSE/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_14, gene = GENES_14, test = TEST_3, ref = REF, trait = TRAIT_3),
+		expand("raremetalNew/burden/BROADMISSENSE/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_15, gene = GENES_15, test = TEST_3, ref = REF, trait = TRAIT_3),
+		expand("raremetalNew/burden/BROADMISSENSE/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_16, gene = GENES_16, test = TEST_3, ref = REF, trait = TRAIT_3),
+		expand("raremetalNew/burden/BROADMISSENSE/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_17, gene = GENES_17, test = TEST_3, ref = REF, trait = TRAIT_3),
+		expand("raremetalNew/burden/BROADMISSENSE/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_18, gene = GENES_18, test = TEST_3, ref = REF, trait = TRAIT_3),
+		expand("raremetalNew/burden/BROADMISSENSE/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_19, gene = GENES_19, test = TEST_3, ref = REF, trait = TRAIT_3),
+		expand("raremetalNew/burden/BROADMISSENSE/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_20, gene = GENES_20, test = TEST_3, ref = REF, trait = TRAIT_3),
+		expand("raremetalNew/burden/BROADMISSENSE/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_21, gene = GENES_21, test = TEST_3, ref = REF, trait = TRAIT_3),
+		expand("raremetalNew/burden/BROADMISSENSE/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_22, gene = GENES_22, test = TEST_3, ref = REF, trait = TRAIT_3),
+		expand("raremetalNew/burden/BROADMISSENSE/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_1, gene = GENES_1, test = TEST_4, ref = REF, trait = TRAIT_4),
+		expand("raremetalNew/burden/BROADMISSENSE/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_2, gene = GENES_2, test = TEST_4, ref = REF, trait = TRAIT_4),
+		expand("raremetalNew/burden/BROADMISSENSE/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_3, gene = GENES_3, test = TEST_4, ref = REF, trait = TRAIT_4),
+		expand("raremetalNew/burden/BROADMISSENSE/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_4, gene = GENES_4, test = TEST_4, ref = REF, trait = TRAIT_4),
+		expand("raremetalNew/burden/BROADMISSENSE/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_5, gene = GENES_5, test = TEST_4, ref = REF, trait = TRAIT_4),
+		expand("raremetalNew/burden/BROADMISSENSE/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_6, gene = GENES_6, test = TEST_4, ref = REF, trait = TRAIT_4),
+		expand("raremetalNew/burden/BROADMISSENSE/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_7, gene = GENES_7, test = TEST_4, ref = REF, trait = TRAIT_4),
+		expand("raremetalNew/burden/BROADMISSENSE/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_8, gene = GENES_8, test = TEST_4, ref = REF, trait = TRAIT_4),
+		expand("raremetalNew/burden/BROADMISSENSE/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_9, gene = GENES_9, test = TEST_4, ref = REF, trait = TRAIT_4),
+		expand("raremetalNew/burden/BROADMISSENSE/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_10, gene = GENES_10, test = TEST_4, ref = REF, trait = TRAIT_4),
+		expand("raremetalNew/burden/BROADMISSENSE/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_11, gene = GENES_11, test = TEST_4, ref = REF, trait = TRAIT_4),
+		expand("raremetalNew/burden/BROADMISSENSE/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_12, gene = GENES_12, test = TEST_4, ref = REF, trait = TRAIT_4),
+		expand("raremetalNew/burden/BROADMISSENSE/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_13, gene = GENES_13, test = TEST_4, ref = REF, trait = TRAIT_4),
+		expand("raremetalNew/burden/BROADMISSENSE/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_14, gene = GENES_14, test = TEST_4, ref = REF, trait = TRAIT_4),
+		expand("raremetalNew/burden/BROADMISSENSE/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_15, gene = GENES_15, test = TEST_4, ref = REF, trait = TRAIT_4),
+		expand("raremetalNew/burden/BROADMISSENSE/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_16, gene = GENES_16, test = TEST_4, ref = REF, trait = TRAIT_4),
+		expand("raremetalNew/burden/BROADMISSENSE/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_17, gene = GENES_17, test = TEST_4, ref = REF, trait = TRAIT_4),
+		expand("raremetalNew/burden/BROADMISSENSE/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_18, gene = GENES_18, test = TEST_4, ref = REF, trait = TRAIT_4),
+		expand("raremetalNew/burden/BROADMISSENSE/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_19, gene = GENES_19, test = TEST_4, ref = REF, trait = TRAIT_4),
+		expand("raremetalNew/burden/BROADMISSENSE/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_20, gene = GENES_20, test = TEST_4, ref = REF, trait = TRAIT_4),
+		expand("raremetalNew/burden/BROADMISSENSE/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_21, gene = GENES_21, test = TEST_4, ref = REF, trait = TRAIT_4),
+		expand("raremetalNew/burden/BROADMISSENSE/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_22, gene = GENES_22, test = TEST_4, ref = REF, trait = TRAIT_4)
+		
+wildcard_constraints:
+    chr = "[a-zA-Z0-9]+",
+	test = "[0-9]+",
+	ref = "[0-9]+",
+	trait = "[a-zA-Z]+",
+	gene = "[a-zA-Z0-9\\-]+"
+
+#The following rules may require Genes/{chr}.genes to have already been created 
+#Also the sample files for the test and reference sets need to be created outside of the pipeline and placed at 
+# "testSize/{trait}/{test}.{trait}.sample.test" and  "refSize/{trait}/{ref}.{trait}.sample.ref"
+#These were created using the R script sample.R
+
+#Rule to create individual test vcf with proper samples for each gene - Note there will be a hidden dependancy on Genes/{chr}.genes having been created already
+rule reduce_test_vcf:
+	input:
+		vcf = "FullVCFs/ukb23155_{chr}_b0_v1.new.vcf.gz",
+		sample_test = "testSize/{trait}/{test}.{trait}.sample.test"
+	output:
+		vcf_test = temp("testVCFs/{chr}/{test}/{trait}/{chr}.{test}.{trait}.{gene}.test.vcf.gz"),
+		tbi_test = temp("testVCFs/{chr}/{test}/{trait}/{chr}.{test}.{trait}.{gene}.test.vcf.gz.tbi")
+	shell:
+		"Rscript Scripts/1.mainAnalysis/singleGeneVCFReducerOneSet.R --vcf {input.vcf} --samples {input.sample_test} --gene {wildcards.gene} --chr {wildcards.chr} \
+		--output {output.vcf_test}"
+		
+#Rule to create individual reference vcf with proper samples for each gene - Note there will be a hidden dependancy on Genes/{chr}.genes having been created already
+rule reduce_ref_vcf:
+	input:
+		vcf = "FullVCFs/ukb23155_{chr}_b0_v1.new.vcf.gz",
+		sample_ref = "refSize/{trait}/{ref}.{trait}.sample.ref"
+	output:
+		vcf_ref = temp("refVCFs/{chr}/{ref}/{trait}/{chr}.{ref}.{trait}.{gene}.ref.vcf.gz"),
+		tbi_ref = temp("refVCFs/{chr}/{ref}/{trait}/{chr}.{ref}.{trait}.{gene}.ref.vcf.gz.tbi")
+	shell:
+		"Rscript Scripts/1.mainAnalysis/singleGeneVCFReducerOneSet.R --vcf {input.vcf} --samples {input.sample_ref} --gene {wildcards.gene} --chr {wildcards.chr} \
+		--output {output.vcf_ref}"
+		
+#Run raremetalworker on each of the vcfs created in the previous rules
+#Note that raremetalworker always appends trait to the end of the prefix
+rule raremetalworker:
+	input:
+		vcf = "testVCFs/{chr}/{test}/{trait}/{chr}.{test}.{trait}.{gene}.test.vcf.gz",
+		dat = "Phenotypes/{trait}.dat",
+		ped = "Phenotypes/{trait}.ped",
+		tbi = "testVCFs/{chr}/{test}/{trait}/{chr}.{test}.{trait}.{gene}.test.vcf.gz.tbi"
+	params:
+		prefix="rmw/{chr}/{test}/{trait}/{chr}.{test}.{gene}"
+	output:
+		"rmw/{chr}/{test}/{trait}/{chr}.{test}.{gene}.{trait}.singlevar.cov.txt",
+		"rmw/{chr}/{test}/{trait}/{chr}.{test}.{gene}.{trait}.singlevar.score.txt",
+		temp("rmw/{chr}/{test}/{trait}/{chr}.{test}.{gene}.{trait}.additive.plots.pdf")
+	resources: mem_mb=10000, disk_mb=5000, time="24:00:00"
+	shell:
+		"/net/snowwhite/home/welchr/projects/raremetal/build/release/bin/raremetalworker --ped {input.ped} --dat {input.dat} --vcf {input.vcf} --traitname {wildcards.trait} --inverseNormal --makeResiduals --prefix {params.prefix}"
+		
+#Create file with test size and residual variance since some genes have a different number of genotyped and phenotyped individuals 
+rule ss_residual_variance:
+	input:
+		"rmw/{chr}/{test}/{trait}/{chr}.{test}.{gene}.{trait}.singlevar.score.txt"
+	output:
+		temp("residVar/{chr}/{test}/{trait}/{chr}.{test}.{gene}.{trait}.testSize_residualVariance")
+	shell:
+		"Rscript Scripts/1.mainAnalysis/sampleSizeResidualVariance.R --scoreStat {input} --output {output}"
+
+#Get allele frequency file for test set 
+rule allele_freq_test:
+	input:
+		"rmw/{chr}/{test}/{trait}/{chr}.{test}.{gene}.{trait}.singlevar.score.txt"
+	output:
+		"testAF/{chr}/{test}/{trait}/{chr}.{test}.{trait}.{gene}.test.allele.freq"
+	shell:
+		"""
+		sed '/^\s*#/d;/^\s*$/d' {input} | awk 'BEGIN {{FS="\t"}}; {{print $1,$2,$3,$4,$7,$8,$17}}' > {output}
+		"""
+		
+#Get allele frequency file for reference set
+rule allele_freq_ref:
+	input:
+		"refVCFs/{chr}/{ref}/{trait}/{chr}.{ref}.{trait}.{gene}.ref.vcf.gz"
+	output:
+		"refAF/{chr}/{ref}/{trait}/{chr}.{ref}.{trait}.{gene}.ref.allele.freq"
+	shell:
+		"""
+		bcftools +fill-AN-AC {input} | bcftools query -f' %CHROM\t%POS\t%REF\t%ALT\t%AN\t%AC\n' > {output}
+		"""
+		
+#Create the various group files for each gene  
+#All mask files have upper threshold set at 0.01
+#Note that Annotations/{chr}.vcf.vep.reduced is a VEP file which has been reduced to only include pLOF + missense(broad) variants
+#It also has a column Sum_Algs added that is 1 if the missense variant was predicted deleterious by each of LRT, PolyPhen2 HVAR, PolyPhen2 HVID,
+#MutationTaster, and SIFT4G. A script to generate such a file is given in Scripts/1.mainAnalysis/VEPreducer.R
+rule group_file:
+	input:
+		cov = "rmw/{chr}/{test}/{trait}/{chr}.{test}.{gene}.{trait}.singlevar.cov.txt",
+		allele_freq = "testAF/{chr}/{test}/{trait}/{chr}.{test}.{trait}.{gene}.test.allele.freq",
+		anno = "Annotations/{chr}.vcf.vep.reduced", 
+		genes = "Genes/{chr}.genes"
+	output:
+		group_stats = "groupStatsNew/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.group.stats",
+		PTV = "groupFilesNew/PTV/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.PTV.group.file",
+		MISSENSE = "groupFilesNew/MISSENSE/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.MISSENSE.group.file"
+	shell:
+		"Rscript Scripts/1.mainAnalysis/generatePLOF_Missense.R --allelefreq {input.allele_freq} --anno {input.anno} --gene {wildcards.gene} --geneCoord {input.genes} --groupStats {output.group_stats} \
+		--outputPTV {output.PTV} --outputMissense {output.MISSENSE} --cov {input.cov}"
+		
+#Create pLOF + missense(broad) mask files
+rule group_file_missense_broad:
+	input:
+		cov = "rmw/{chr}/{test}/{trait}/{chr}.{test}.{gene}.{trait}.singlevar.cov.txt",
+		allele_freq = "testAF/{chr}/{test}/{trait}/{chr}.{test}.{trait}.{gene}.test.allele.freq",
+		anno = "Annotations/{chr}.vcf.vep.reduced", 
+		genes = "Genes/{chr}.genes"
+	output:
+		group_stats = "groupStatsNew/BROADMISSENSE/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.group.stats",
+		BROADMISSENSE = "groupFilesNew/BROADMISSENSE/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.BROADMISSENSE.group.file"
+	shell:
+		"Rscript Scripts/1.mainAnalysis/generate_broad_missense.R --allelefreq {input.allele_freq} --anno {input.anno} --gene {wildcards.gene} --geneCoord {input.genes} --groupStats {output.group_stats} \
+		--output {output.BROADMISSENSE} --cov {input.cov}"
+
+
+#Create a covariance file with all covariances set to 0, and the variance estimated from the test set 
+#Note empty file is created if no variants in gene - this is very unlikely though 
+rule estimated_cov_all0:
+	input:
+		test = "testAF/{chr}/{test}/{trait}/{chr}.{test}.{trait}.{gene}.test.allele.freq",
+		ss_residual_variance = "residVar/{chr}/{test}/{trait}/{chr}.{test}.{gene}.{trait}.testSize_residualVariance",
+		genes = "Genes/{chr}.genes",
+		tbi = "refVCFs/{chr}/{ref}/{trait}/{chr}.{ref}.{trait}.{gene}.ref.vcf.gz.tbi"
+	output:
+		"estCovAll0New/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.all0.estimated.cov"
+	shell:
+		"Rscript Scripts/1.mainAnalysis/singleGeneCovarianceEstimateAll0.R --testallelefreq {input.test} --testSizeResidualVariance {input.ss_residual_variance} --geneCoord {input.genes} \
+		--gene {wildcards.gene} --chr {wildcards.chr} --refsize {wildcards.ref} --testsize {wildcards.test} --output {output}"
+		
+#Create a covariance file calculated using the external reference panel and imputing missing variants to 0
+#Again note that this outputs an empty file if there are no variants in the gene (unlikely)
+rule estimated_cov_imp0:
+	input:
+		test = "testAF/{chr}/{test}/{trait}/{chr}.{test}.{trait}.{gene}.test.allele.freq",
+		ref = "refAF/{chr}/{ref}/{trait}/{chr}.{ref}.{trait}.{gene}.ref.allele.freq",
+		ref_samples = "refSize/{trait}/{ref}.{trait}.sample.ref",
+		ss_residual_variance = "residVar/{chr}/{test}/{trait}/{chr}.{test}.{gene}.{trait}.testSize_residualVariance",
+		genes = "Genes/{chr}.genes",
+		vcf = "refVCFs/{chr}/{ref}/{trait}/{chr}.{ref}.{trait}.{gene}.ref.vcf.gz",
+		tbi = "refVCFs/{chr}/{ref}/{trait}/{chr}.{ref}.{trait}.{gene}.ref.vcf.gz.tbi"
+	output:
+		"estCovImp0New/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.imp0.estimated.cov"
+	shell:
+		"Rscript Scripts/1.mainAnalysis/singleGeneCovarianceEstimateImpute0.R --testallelefreq {input.test} --refallelefreq {input.ref} --vcf {input.vcf} \
+		--refsamples {input.ref_samples} --testSizeResidualVariance {input.ss_residual_variance} --geneCoord {input.genes} \
+		--gene {wildcards.gene} --chr {wildcards.chr} --refsize {wildcards.ref} --testsize {wildcards.test} --output {output}"
+		
+#Create summaryFiles and covFiles for each of the four settings for raremetal, and create a flag for empty genes
+#if gene is empty a file {chr}.{test}.{ref}.{trait}.{gene}.(cov name).ignore will be created 
+rule raremetal_files:
+	input:
+		allele_freq_ref = "refAF/{chr}/{ref}/{trait}/{chr}.{ref}.{trait}.{gene}.ref.allele.freq", 
+		allele_freq_test = "testAF/{chr}/{test}/{trait}/{chr}.{test}.{trait}.{gene}.test.allele.freq",
+		all0_cov = "estCovAll0New/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.all0.estimated.cov"
+	output:
+		summaryFiles = temp("raremetalFilesNew/summary/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.summaryFiles"),
+		true_covFiles = temp("raremetalFilesNew/trueCov/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.true_covFiles"),
+		imp_covFiles = temp("raremetalFilesNew/impCov/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.imputed0.est_covFiles"),
+		all0_covFiles = temp("raremetalFilesNew/all0Cov/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.all0.est_covFiles")
+	shell:
+		"Rscript Scripts/1.mainAnalysis/singleGeneRaremetalFiles.R --refallelefreq {input.allele_freq_ref} --testallelefreq {input.allele_freq_test} \
+		--chr {wildcards.chr} --testsize {wildcards.test} --refsize {wildcards.ref} --trait {wildcards.trait} --gene {wildcards.gene} \
+		--trueCovFiles {output.true_covFiles} --impCovFiles {output.imp_covFiles} --all0CovFiles {output.all0_covFiles} \
+		--summaryFiles {output.summaryFiles}"
+		
+#bgzip and tabix the score statistic file, true covariance file, and all0 covariance file
+#Note that here the group files need to be created already otherwise it can't use the covariance file to create the group file
+#we also need to use allele_freq as a dependency since we need the unzipped score file to create it
+#Note I haven't put the bgzipped covariance or gzipped score file in the output since it wouldn't have the same wildcards
+rule bgzip_tab:
+	input:
+		summaryFiles = "raremetalFilesNew/summary/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.summaryFiles", 
+		rm_file = "raremetalFilesNew/trueCov/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.true_covFiles",
+		cov_all0 = "estCovAll0New/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.all0.estimated.cov",
+		rm_file_all0 = "raremetalFilesNew/all0Cov/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.all0.est_covFiles",
+		group_file = "groupFilesNew/PTV/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.PTV.group.file",
+		group_file_broad_missense = "groupFilesNew/BROADMISSENSE/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.BROADMISSENSE.group.file",
+		allele_freq = "testAF/{chr}/{test}/{trait}/{chr}.{test}.{trait}.{gene}.test.allele.freq",
+		est_cov_imp0 = "estCovImp0New/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.imp0.estimated.cov"
+	output:
+		temp("estCovAll0New/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.all0.estimated.cov.gz"),
+		temp("estCovAll0New/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.all0.estimated.cov.gz.tbi"),
+		temp("estCovImp0New/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.imp0.estimated.cov.gz"),
+		temp("estCovImp0New/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.imp0.estimated.cov.gz.tbi")
+	shell:
+		"Rscript Scripts/1.mainAnalysis/bgzipTabix.R --chr {wildcards.chr} --testsize {wildcards.test} --refsize {wildcards.ref} --trait {wildcards.trait} --gene {wildcards.gene} \
+		--covAll0 {input.cov_all0} --estCovImp0 {input.est_cov_imp0}"
+		
+#Run raremetal for pLOF and pLOF + missense(narrow)
+#Note that the R script does not take as input the group files but rather if you want the analysis done, so any changes to this rule 
+#in subsequent snakefiles must also change the R script. It assumes a certain format of the group files and raremetal input files 
+#see singleGeneRaremetalCaller.R --help for more description
+#Also note that if {chr}.{test}.{ref}.{trait}.{gene}.(cov name).ignore exists here, we must also output an empty file for the corresponding results files
+rule raremetal:
+	input:
+		summaryFiles = "raremetalFilesNew/summary/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.summaryFiles",
+		covFiles_true = "raremetalFilesNew/trueCov/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.true_covFiles",
+		covFiles_all0 = "raremetalFilesNew/all0Cov/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.all0.est_covFiles",
+		cov_all0 = "estCovAll0New/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.all0.estimated.cov.gz",
+		tabix_cov_all0 = "estCovAll0New/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.all0.estimated.cov.gz.tbi",
+		covFiles_imp0 = "raremetalFilesNew/impCov/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.imputed0.est_covFiles",
+		cov_est_imp0 = "estCovImp0New/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.imp0.estimated.cov.gz",
+		tabix_covFiles_imp0 = "estCovImp0New/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.imp0.estimated.cov.gz.tbi",
+		PTV = "groupFilesNew/PTV/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.PTV.group.file",
+		MISSENSE = "groupFilesNew/MISSENSE/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.MISSENSE.group.file",
+		vcf_test = "testVCFs/{chr}/{test}/{trait}/{chr}.{test}.{trait}.{gene}.test.vcf.gz",
+		vcf_test_tbi = "testVCFs/{chr}/{test}/{trait}/{chr}.{test}.{trait}.{gene}.test.vcf.gz.tbi", 
+		vcf_ref = "refVCFs/{chr}/{ref}/{trait}/{chr}.{ref}.{trait}.{gene}.ref.vcf.gz",
+		vcf_ref_tbi = "refVCFs/{chr}/{ref}/{trait}/{chr}.{ref}.{trait}.{gene}.ref.vcf.gz.tbi",
+		allele_freq = "testAF/{chr}/{test}/{trait}/{chr}.{test}.{trait}.{gene}.test.allele.freq"
+	output:
+		"raremetalNew/burden/PTV/{chr}/{test}/{ref}/{trait}/{gene}/{chr}.{test}.{ref}.{trait}.{gene}.UNRESTRICTED_PTV.meta.burden.results",
+		"raremetalNew/burden/MISSENSE/{chr}/{test}/{ref}/{trait}/{gene}/{chr}.{test}.{ref}.{trait}.{gene}.UNRESTRICTED_MISSENSE.meta.burden.results",
+		"raremetalNew/burden/PTV/{chr}/{test}/{ref}/{trait}/{gene}/{chr}.{test}.{ref}.{trait}.{gene}.ALL0_PTV.meta.burden.results",
+		"raremetalNew/burden/MISSENSE/{chr}/{test}/{ref}/{trait}/{gene}/{chr}.{test}.{ref}.{trait}.{gene}.ALL0_MISSENSE.meta.burden.results",
+		"raremetalNew/burden/PTV/{chr}/{test}/{ref}/{trait}/{gene}/{chr}.{test}.{ref}.{trait}.{gene}.IMPUTED0_PTV.meta.burden.results",
+		"raremetalNew/burden/MISSENSE/{chr}/{test}/{ref}/{trait}/{gene}/{chr}.{test}.{ref}.{trait}.{gene}.IMPUTED0_MISSENSE.meta.burden.results",
+		done = "raremetalNew/burden/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done"
+	resources: 
+		time="24:00:00"
+	shell:
+		"Rscript Scripts/1.mainAnalysis/singleGeneRaremetalCaller.R --summaryfiles {input.summaryFiles} --PTV T --missense T --chr {wildcards.chr} \
+		--testsize {wildcards.test} --refsize {wildcards.ref} --traitname {wildcards.trait} --gene {wildcards.gene} --trueCov T --estCov T --all0Cov T --trueCovFiles {input.covFiles_true} \
+		--covFilesAll0 {input.covFiles_all0} --summaryFiles {input.summaryFiles} --done {output.done} --estCovFilesImp0 {input.covFiles_imp0}" 	
+		
+#Run raremetal for pLOF + missense(broad)
+#Note that the R script does not take as input the group files but rather if you want the analysis done, so any changes to this rule 
+#in subsequent snakefiles must also change the R script. It assumes a certain format of the group files and raremetal input files 
+#see singleGeneRaremetalCallerBroadMissense.R --help for more description
+#Also note that if {chr}.{test}.{ref}.{trait}.{gene}.(cov name).ignore exists here, we must also output an empty file for the corresponding results files
+rule raremetal_broad_missense:
+	input:
+		summaryFiles = "raremetalFilesNew/summary/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.summaryFiles",
+		covFiles_true = "raremetalFilesNew/trueCov/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.true_covFiles",
+		covFiles_all0 = "raremetalFilesNew/all0Cov/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.all0.est_covFiles",
+		cov_all0 = "estCovAll0New/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.all0.estimated.cov.gz",
+		tabix_cov_all0 = "estCovAll0New/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.all0.estimated.cov.gz.tbi",
+		covFiles_imp0 = "raremetalFilesNew/impCov/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.imputed0.est_covFiles",
+		cov_est_imp0 = "estCovImp0New/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.imp0.estimated.cov.gz",
+		tabix_covFiles_imp0 = "estCovImp0New/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.imp0.estimated.cov.gz.tbi",
+		MISSENSE = "groupFilesNew/BROADMISSENSE/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.BROADMISSENSE.group.file",
+		vcf_test = "testVCFs/{chr}/{test}/{trait}/{chr}.{test}.{trait}.{gene}.test.vcf.gz",
+		vcf_test_tbi = "testVCFs/{chr}/{test}/{trait}/{chr}.{test}.{trait}.{gene}.test.vcf.gz.tbi", 
+		vcf_ref = "refVCFs/{chr}/{ref}/{trait}/{chr}.{ref}.{trait}.{gene}.ref.vcf.gz",
+		vcf_ref_tbi = "refVCFs/{chr}/{ref}/{trait}/{chr}.{ref}.{trait}.{gene}.ref.vcf.gz.tbi",
+		allele_freq = "testAF/{chr}/{test}/{trait}/{chr}.{test}.{trait}.{gene}.test.allele.freq"
+	output:
+		"raremetalNew/burden/BROADMISSENSE/{chr}/{test}/{ref}/{trait}/{gene}/{chr}.{test}.{ref}.{trait}.{gene}.UNRESTRICTED_BROADMISSENSE.meta.burden.results",
+		"raremetalNew/burden/BROADMISSENSE/{chr}/{test}/{ref}/{trait}/{gene}/{chr}.{test}.{ref}.{trait}.{gene}.ALL0_BROADMISSENSE.meta.burden.results",
+		"raremetalNew/burden/BROADMISSENSE/{chr}/{test}/{ref}/{trait}/{gene}/{chr}.{test}.{ref}.{trait}.{gene}.IMPUTED0_BROADMISSENSE.meta.burden.results",
+		done = "raremetalNew/burden/BROADMISSENSE/done/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done"
+	resources: 
+		time="24:00:00"
+	shell:
+		"Rscript Scripts/1.mainAnalysis/singleGeneRaremetalCallerBroadMissense.R --summaryfiles {input.summaryFiles} --chr {wildcards.chr} \
+		--testsize {wildcards.test} --refsize {wildcards.ref} --traitname {wildcards.trait} --gene {wildcards.gene} --trueCov T --estCov T --all0Cov T --trueCovFiles {input.covFiles_true} \
+		--covFilesAll0 {input.covFiles_all0} --summaryFiles {input.summaryFiles} --done {output.done} --estCovFilesImp0 {input.covFiles_imp0}" 	
