@@ -1,0 +1,344 @@
+#This Snakefile performs our usual simulation with UKBB summary statistics
+#and 5 different reference panels from UKBB and InPSYght
+
+CHR_1 = ["c1"]
+CHR_2 = ["c2"]
+CHR_3 = ["c3"]
+CHR_4 = ["c4"]
+CHR_5 = ["c5"]
+CHR_6 = ["c6"]
+CHR_7 = ["c7"]
+CHR_8 = ["c8"]
+CHR_9 = ["c9"]
+CHR_10 = ["c10"]
+CHR_11 = ["c11"]
+CHR_12 = ["c12"]
+CHR_13 = ["c13"]
+CHR_14 = ["c14"]
+CHR_15 = ["c15"]
+CHR_16 = ["c16"]
+CHR_17 = ["c17"]
+CHR_18 = ["c18"]
+CHR_19 = ["c19"]
+CHR_20 = ["c20"]
+CHR_21 = ["c21"]
+CHR_22 = ["c22"]
+
+TEST = ["139977"]
+
+REF = ["100", "500", "1000", "4999", "7500"]
+
+TRAIT = ["meanSpheredCellVolume"]
+
+#Create vector of genes for each of the chromosomes
+#Note that this Snakefile assumes that the genes files are one level higher than the current directory
+GENES_1 = [x.split('	')[0] for x in open("../Genes/c1.genes").readlines()]
+GENES_2 = [x.split('	')[0] for x in open("../Genes/c2.genes").readlines()]
+GENES_3 = [x.split('	')[0] for x in open("../Genes/c3.genes").readlines()]
+GENES_4 = [x.split('	')[0] for x in open("../Genes/c4.genes").readlines()]
+GENES_5 = [x.split('	')[0] for x in open("../Genes/c5.genes").readlines()]
+GENES_6 = [x.split('	')[0] for x in open("../Genes/c6.genes").readlines()]
+GENES_7 = [x.split('	')[0] for x in open("../Genes/c7.genes").readlines()]
+GENES_8 = [x.split('	')[0] for x in open("../Genes/c8.genes").readlines()]
+GENES_9 = [x.split('	')[0] for x in open("../Genes/c9.genes").readlines()]
+GENES_10 = [x.split('	')[0] for x in open("../Genes/c10.genes").readlines()]
+GENES_11 = [x.split('	')[0] for x in open("../Genes/c11.genes").readlines()]
+GENES_12 = [x.split('	')[0] for x in open("../Genes/c12.genes").readlines()]
+GENES_13 = [x.split('	')[0] for x in open("../Genes/c13.genes").readlines()]
+GENES_14 = [x.split('	')[0] for x in open("../Genes/c14.genes").readlines()]
+GENES_15 = [x.split('	')[0] for x in open("../Genes/c15.genes").readlines()]
+GENES_16 = [x.split('	')[0] for x in open("../Genes/c16.genes").readlines()]
+GENES_17 = [x.split('	')[0] for x in open("../Genes/c17.genes").readlines()]
+GENES_18 = [x.split('	')[0] for x in open("../Genes/c18.genes").readlines()]
+GENES_19 = [x.split('	')[0] for x in open("../Genes/c19.genes").readlines()]
+GENES_20 = [x.split('	')[0] for x in open("../Genes/c20.genes").readlines()]
+GENES_21 = [x.split('	')[0] for x in open("../Genes/c21.genes").readlines()]
+GENES_22 = [x.split('	')[0] for x in open("../Genes/c22.genes").readlines()]
+
+localrules: raremetal_files, raremetal_files_all0, ss_residual_variance
+
+wildcard_constraints:
+    chr = "[a-zA-Z0-9]+",
+	test = "[0-9]+",
+	ref = "[0-9]+",
+	trait = "[a-zA-Z]+",
+	gene = "[a-zA-Z0-9\\-]+"
+
+rule all:
+	input:
+		expand("raremetalNew/burden/done/imputed0/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_1, gene = GENES_1, test = TEST, ref = REF, trait = TRAIT),
+		expand("raremetalNew/burden/done/imputed0/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_2, gene = GENES_2, test = TEST, ref = REF, trait = TRAIT),
+		expand("raremetalNew/burden/done/imputed0/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_3, gene = GENES_3, test = TEST, ref = REF, trait = TRAIT),
+		expand("raremetalNew/burden/done/imputed0/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_4, gene = GENES_4, test = TEST, ref = REF, trait = TRAIT),
+		expand("raremetalNew/burden/done/imputed0/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_5, gene = GENES_5, test = TEST, ref = REF, trait = TRAIT),
+		expand("raremetalNew/burden/done/imputed0/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_6, gene = GENES_6, test = TEST, ref = REF, trait = TRAIT),
+		expand("raremetalNew/burden/done/imputed0/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_7, gene = GENES_7, test = TEST, ref = REF, trait = TRAIT),
+		expand("raremetalNew/burden/done/imputed0/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_8, gene = GENES_8, test = TEST, ref = REF, trait = TRAIT),
+		expand("raremetalNew/burden/done/imputed0/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_9, gene = GENES_9, test = TEST, ref = REF, trait = TRAIT),
+		expand("raremetalNew/burden/done/imputed0/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_10, gene = GENES_10, test = TEST, ref = REF, trait = TRAIT),
+		expand("raremetalNew/burden/done/imputed0/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_11, gene = GENES_11, test = TEST, ref = REF, trait = TRAIT),
+		expand("raremetalNew/burden/done/imputed0/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_12, gene = GENES_12, test = TEST, ref = REF, trait = TRAIT),
+		expand("raremetalNew/burden/done/imputed0/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_13, gene = GENES_13, test = TEST, ref = REF, trait = TRAIT),
+		expand("raremetalNew/burden/done/imputed0/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_14, gene = GENES_14, test = TEST, ref = REF, trait = TRAIT),
+		expand("raremetalNew/burden/done/imputed0/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_15, gene = GENES_15, test = TEST, ref = REF, trait = TRAIT),
+		expand("raremetalNew/burden/done/imputed0/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_16, gene = GENES_16, test = TEST, ref = REF, trait = TRAIT),
+		expand("raremetalNew/burden/done/imputed0/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_17, gene = GENES_17, test = TEST, ref = REF, trait = TRAIT),
+		expand("raremetalNew/burden/done/imputed0/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_18, gene = GENES_18, test = TEST, ref = REF, trait = TRAIT),
+		expand("raremetalNew/burden/done/imputed0/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_19, gene = GENES_19, test = TEST, ref = REF, trait = TRAIT),
+		expand("raremetalNew/burden/done/imputed0/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_20, gene = GENES_20, test = TEST, ref = REF, trait = TRAIT),
+		expand("raremetalNew/burden/done/imputed0/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_21, gene = GENES_21, test = TEST, ref = REF, trait = TRAIT),
+		expand("raremetalNew/burden/done/imputed0/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done", chr = CHR_22, gene = GENES_22, test = TEST, ref = REF, trait = TRAIT),
+		expand("raremetalNew/burden/done/all0/{chr}/{test}/{trait}/{chr}.{test}.{trait}.{gene}.done", chr = CHR_1, gene = GENES_1, test = TEST, trait = TRAIT),
+		expand("raremetalNew/burden/done/all0/{chr}/{test}/{trait}/{chr}.{test}.{trait}.{gene}.done", chr = CHR_2, gene = GENES_2, test = TEST, trait = TRAIT),
+		expand("raremetalNew/burden/done/all0/{chr}/{test}/{trait}/{chr}.{test}.{trait}.{gene}.done", chr = CHR_3, gene = GENES_3, test = TEST, trait = TRAIT),
+		expand("raremetalNew/burden/done/all0/{chr}/{test}/{trait}/{chr}.{test}.{trait}.{gene}.done", chr = CHR_4, gene = GENES_4, test = TEST, trait = TRAIT),
+		expand("raremetalNew/burden/done/all0/{chr}/{test}/{trait}/{chr}.{test}.{trait}.{gene}.done", chr = CHR_5, gene = GENES_5, test = TEST, trait = TRAIT),
+		expand("raremetalNew/burden/done/all0/{chr}/{test}/{trait}/{chr}.{test}.{trait}.{gene}.done", chr = CHR_6, gene = GENES_6, test = TEST, trait = TRAIT),
+		expand("raremetalNew/burden/done/all0/{chr}/{test}/{trait}/{chr}.{test}.{trait}.{gene}.done", chr = CHR_7, gene = GENES_7, test = TEST, trait = TRAIT),
+		expand("raremetalNew/burden/done/all0/{chr}/{test}/{trait}/{chr}.{test}.{trait}.{gene}.done", chr = CHR_8, gene = GENES_8, test = TEST, trait = TRAIT),
+		expand("raremetalNew/burden/done/all0/{chr}/{test}/{trait}/{chr}.{test}.{trait}.{gene}.done", chr = CHR_9, gene = GENES_9, test = TEST, trait = TRAIT),
+		expand("raremetalNew/burden/done/all0/{chr}/{test}/{trait}/{chr}.{test}.{trait}.{gene}.done", chr = CHR_10, gene = GENES_10, test = TEST, trait = TRAIT),
+		expand("raremetalNew/burden/done/all0/{chr}/{test}/{trait}/{chr}.{test}.{trait}.{gene}.done", chr = CHR_11, gene = GENES_11, test = TEST, trait = TRAIT),
+		expand("raremetalNew/burden/done/all0/{chr}/{test}/{trait}/{chr}.{test}.{trait}.{gene}.done", chr = CHR_12, gene = GENES_12, test = TEST, trait = TRAIT),
+		expand("raremetalNew/burden/done/all0/{chr}/{test}/{trait}/{chr}.{test}.{trait}.{gene}.done", chr = CHR_13, gene = GENES_13, test = TEST, trait = TRAIT),
+		expand("raremetalNew/burden/done/all0/{chr}/{test}/{trait}/{chr}.{test}.{trait}.{gene}.done", chr = CHR_14, gene = GENES_14, test = TEST, trait = TRAIT),
+		expand("raremetalNew/burden/done/all0/{chr}/{test}/{trait}/{chr}.{test}.{trait}.{gene}.done", chr = CHR_15, gene = GENES_15, test = TEST, trait = TRAIT),
+		expand("raremetalNew/burden/done/all0/{chr}/{test}/{trait}/{chr}.{test}.{trait}.{gene}.done", chr = CHR_16, gene = GENES_16, test = TEST, trait = TRAIT),
+		expand("raremetalNew/burden/done/all0/{chr}/{test}/{trait}/{chr}.{test}.{trait}.{gene}.done", chr = CHR_17, gene = GENES_17, test = TEST, trait = TRAIT),
+		expand("raremetalNew/burden/done/all0/{chr}/{test}/{trait}/{chr}.{test}.{trait}.{gene}.done", chr = CHR_18, gene = GENES_18, test = TEST, trait = TRAIT),
+		expand("raremetalNew/burden/done/all0/{chr}/{test}/{trait}/{chr}.{test}.{trait}.{gene}.done", chr = CHR_19, gene = GENES_19, test = TEST, trait = TRAIT),
+		expand("raremetalNew/burden/done/all0/{chr}/{test}/{trait}/{chr}.{test}.{trait}.{gene}.done", chr = CHR_20, gene = GENES_20, test = TEST, trait = TRAIT),
+		expand("raremetalNew/burden/done/all0/{chr}/{test}/{trait}/{chr}.{test}.{trait}.{gene}.done", chr = CHR_21, gene = GENES_21, test = TEST, trait = TRAIT),
+		expand("raremetalNew/burden/done/all0/{chr}/{test}/{trait}/{chr}.{test}.{trait}.{gene}.done", chr = CHR_22, gene = GENES_22, test = TEST, trait = TRAIT)
+
+#The following rules may require ../Genes/{chr}.genes to have already been created 
+#Also the sample files for the test and reference sets need to be created outside of the pipeline and placed at 
+# "testSize/{trait}/{test}.{trait}.sample.test", "refSize/{trait}/{ref}.{trait}.UKBB.sample.ref", and "refSize/{trait}/{ref}.{trait}.InPSYght.sample.ref"
+#The UKBB reference sample was created using the script UKBB_sample.R and the InPSYght sample was created using the script InPSYghtSample.R
+#The "testSize/{trait}/{test}.{trait}.sample.test" file was copied from the analysis in 1.mainAnalysis, with a handful of samples removed due to updated exclusion lists
+
+#Rule to create individual test vcf with proper samples for each gene - Note there will be a hidden dependancy on ../Genes/{chr}.genes having been created already
+rule reduce_test_vcf:
+	input:
+		vcf = "../FullVCFs/ukb23155_{chr}_b0_v1.new.vcf.gz",
+		sample_test = "testSize/{trait}/{test}.{trait}.sample.test"
+	output:
+		vcf_test = "testVCFs/{chr}/{test}/{trait}/{chr}.{test}.{trait}.{gene}.test.vcf.gz",
+		tbi_test = "testVCFs/{chr}/{test}/{trait}/{chr}.{test}.{trait}.{gene}.test.vcf.gz.tbi"
+	shell:
+		"Rscript Rscripts/InPSYghtFinalSingleGeneUKBBVCFReducerOneSet.R --vcf {input.vcf} --samples {input.sample_test} --gene {wildcards.gene} --chr {wildcards.chr} \
+		--output {output.vcf_test}"
+		
+#Rule to create individual UKBB reference vcf with proper samples for each gene - Note there will be a hidden dependancy on ../Genes/{chr}.genes having been created already
+rule reduce_UKBB_ref_vcf:
+	input:
+		vcf = "../FullVCFs/ukb23155_{chr}_b0_v1.new.vcf.gz",
+		sample_ref = "refSize/{trait}/{ref}.{trait}.UKBB.sample.ref"
+	output:
+		vcf_ref = "refVCFs/{chr}/{ref}/{trait}/{chr}.{ref}.{trait}.{gene}.UKBB.ref.vcf.gz",
+		tbi_ref = "refVCFs/{chr}/{ref}/{trait}/{chr}.{ref}.{trait}.{gene}.UKBB.ref.vcf.gz.tbi"
+	shell:
+		"Rscript Rscripts/InPSYghtFinalSingleGeneUKBBVCFReducerOneSet.R --vcf {input.vcf} --samples {input.sample_ref} --gene {wildcards.gene} --chr {wildcards.chr} \
+		--output {output.vcf_ref}"
+
+#Rule to create InPSYght reference vcf with proper samples for each gene - Note there will be a hidden dependancy on ../Genes/{chr}.genes having been created already
+rule reduce_InPSYght_ref_vcf:
+	input:
+		sample_ref = "refSize/{trait}/{ref}.{trait}.InPSYght.sample.ref"
+	output:
+		vcf_ref = "refVCFs/{chr}/{ref}/{trait}/{chr}.{ref}.{trait}.{gene}.InPSYght.ref.vcf.gz",
+		tbi_ref = "refVCFs/{chr}/{ref}/{trait}/{chr}.{ref}.{trait}.{gene}.InPSYght.ref.vcf.gz.tbi"
+	shell:
+		"Rscript Rscripts/InPSYghtFinalSingleGeneInPSYghtVCFReducerOneSet.R --samples {input.sample_ref} --gene {wildcards.gene} --chr {wildcards.chr} --output {output.vcf_ref}"
+
+#Run raremetalworker on the test VCF
+#Note that raremetalworker always appends trait to the end of the prefix
+rule raremetalworker:
+	input:
+		vcf = "testVCFs/{chr}/{test}/{trait}/{chr}.{test}.{trait}.{gene}.test.vcf.gz",
+		dat = "../Phenotypes/{trait}.dat",
+		ped = "../Phenotypes/{trait}.ped",
+		tbi = "testVCFs/{chr}/{test}/{trait}/{chr}.{test}.{trait}.{gene}.test.vcf.gz.tbi"
+	params:
+		prefix="rmw/{chr}/{test}/{trait}/{chr}.{test}.{gene}"
+	output:
+		"rmw/{chr}/{test}/{trait}/{chr}.{test}.{gene}.{trait}.singlevar.cov.txt",
+		"rmw/{chr}/{test}/{trait}/{chr}.{test}.{gene}.{trait}.singlevar.score.txt",
+		temp("rmw/{chr}/{test}/{trait}/{chr}.{test}.{gene}.{trait}.additive.plots.pdf")
+	resources: mem_mb=10000, disk_mb=5000, time="24:00:00"
+	shell:
+		"/net/snowwhite/home/welchr/projects/raremetal/build/release/bin/raremetalworker --ped {input.ped} --dat {input.dat} --vcf {input.vcf} --traitname {wildcards.trait} --inverseNormal --makeResiduals --prefix {params.prefix}"
+		
+#Create file with test size and residual variance since some genes have a different number of genotyped and phenotyped individuals 
+rule ss_residual_variance:
+	input:
+		"rmw/{chr}/{test}/{trait}/{chr}.{test}.{gene}.{trait}.singlevar.score.txt"
+	output:
+		"residVar/{chr}/{test}/{trait}/{chr}.{test}.{gene}.{trait}.testSize_residualVariance"
+	shell:
+		"Rscript Rscripts/sampleSizeResidualVariance.R --scoreStat {input} --output {output}"
+
+#Get allele frequency file for test set 
+rule allele_freq_test:
+	input:
+		"rmw/{chr}/{test}/{trait}/{chr}.{test}.{gene}.{trait}.singlevar.score.txt"
+	output:
+		"testAF/{chr}/{test}/{trait}/{chr}.{test}.{trait}.{gene}.test.allele.freq"
+	shell:
+		"""
+		sed '/^\s*#/d;/^\s*$/d' {input} | awk 'BEGIN {{FS="\t"}}; {{print $1,$2,$3,$4,$7,$8,$17}}' > {output}
+		"""
+
+#Get allele frequency file for UKBB reference set
+rule allele_freq_ref_UKBB:
+	input:
+		"refVCFs/{chr}/{ref}/{trait}/{chr}.{ref}.{trait}.{gene}.UKBB.ref.vcf.gz"
+	output:
+		"refAF/{chr}/{ref}/{trait}/{chr}.{ref}.{trait}.{gene}.UKBB.ref.allele.freq"
+	shell:
+		"""
+		bcftools +fill-AN-AC {input} | bcftools query -f' %CHROM\t%POS\t%REF\t%ALT\t%AN\t%AC\n' > {output}
+		"""
+
+#Get allele frequency file for InPSYght reference set
+rule allele_freq_ref_InPSYght:
+	input:
+		"refVCFs/{chr}/{ref}/{trait}/{chr}.{ref}.{trait}.{gene}.InPSYght.ref.vcf.gz"
+	output:
+		"refAF/{chr}/{ref}/{trait}/{chr}.{ref}.{trait}.{gene}.InPSYght.ref.allele.freq"
+	shell:
+		"""
+		bcftools +fill-AN-AC {input} | bcftools query -f' %CHROM\t%POS\t%REF\t%ALT\t%AN\t%AC\n' > {output}
+		"""
+
+#Create the various group files for each gene  
+#All mask files have upper threshold set at 0.01
+#Note also that the files "InPSYght_duplicated/{chr}.InPSYght.duplicated.vars" and 
+#"InPSYght_hwe/{chr}.InPSYght.failHWE.vars" must have already been created. The former
+#is a file containing a list of the multi-allelic variants in InPSYght, and can be created using the script multi_var_files.R.
+#The latter is a list of the variants that did not pass the HWE threshold of p>10^-6, and can be created using the script hwe_writer.R
+#Also note that ../Annotations/{chr}.vcf.vep.reduced is a VEP file which has been reduced to only include pLOF + missense(broad) variants
+#It also has a column Sum_Algs added that is 1 if the missense variant was predicted deleterious by each of LRT, PolyPhen2 HVAR, PolyPhen2 HVID,
+#MutationTaster, and SIFT4G. A script to generate such a file is given in Scripts/1.mainAnalysis/VEPreducer.R
+rule group_file:
+	input:
+		allele_freq = "testAF/{chr}/{test}/{trait}/{chr}.{test}.{trait}.{gene}.test.allele.freq",
+		anno = "../Annotations/{chr}.vcf.vep.reduced", 
+		genes = "../Genes/{chr}.genes",
+		multi_allelic = "InPSYght_duplicated/{chr}.InPSYght.duplicated.vars",
+		hwe = "InPSYght_hwe/{chr}.InPSYght.failHWE.vars"
+	output:
+		group_stats = "groupStatsNew/{chr}/{test}/{trait}/{chr}.{test}.{trait}.{gene}.group.stats",
+		PTV = "groupFilesNew/PTV/{chr}/{test}/{trait}/{chr}.{test}.{trait}.{gene}.PTV.group.file",
+		narrowMissense = "groupFilesNew/MISSENSE/{chr}/{test}/{trait}/{chr}.{test}.{trait}.{gene}.MISSENSE.group.file",
+		broadMissense = "groupFilesNew/BROADMISSENSE/{chr}/{test}/{trait}/{chr}.{test}.{trait}.{gene}.BROADMISSENSE.group.file"
+	shell:
+		"Rscript Rscripts/InPSYghtGenerate_pLOF_narrowMissense_broadMissense.R --allelefreq {input.allele_freq} --anno {input.anno} --gene {wildcards.gene} --geneCoord {input.genes} --groupStats {output.group_stats} \
+		--outputPTV {output.PTV} --outputNarrowMissense {output.narrowMissense} --outputBroadMissense {output.broadMissense} --multiAllelic {input.multi_allelic} --InPSYghtHWE {input.hwe}"
+
+#Create a covariance file with all covariances set to 0, and the variance estimated from the test set 
+#Note empty file is created if no variants in gene - this is very unlikely though 
+rule estimated_cov_all0:
+	input:
+		test = "testAF/{chr}/{test}/{trait}/{chr}.{test}.{trait}.{gene}.test.allele.freq",
+		ss_residual_variance = "residVar/{chr}/{test}/{trait}/{chr}.{test}.{gene}.{trait}.testSize_residualVariance",
+		genes = "../Genes/{chr}.genes",
+		multi_allelic = "InPSYght_duplicated/{chr}.InPSYght.duplicated.vars",
+		hwe = "InPSYght_hwe/{chr}.InPSYght.failHWE.vars"
+	output:
+		"estCovAll0New/{chr}/{test}/{trait}/{chr}.{test}.{trait}.{gene}.all0.estimated.cov"
+	shell:
+		"Rscript Rscripts/InPSYghtFinalSingleGeneCovarianceEstimateAll0.R --testallelefreq {input.test} --testSizeResidualVariance {input.ss_residual_variance} --geneCoord {input.genes} \
+		--gene {wildcards.gene} --chr {wildcards.chr} --testsize {wildcards.test} --output {output} --multiAllelic {input.multi_allelic} --InPSYghtHWE {input.hwe}"
+		
+#Create a covariance file calculated using the UKBB external reference panel and imputing missing variants to 0
+#Again note that this outputs an empty file if there are no variants in the gene (unlikely)
+rule estimated_cov_UKBB_imp0:
+	input:
+		test = "testAF/{chr}/{test}/{trait}/{chr}.{test}.{trait}.{gene}.test.allele.freq",
+		ref = "refAF/{chr}/{ref}/{trait}/{chr}.{ref}.{trait}.{gene}.UKBB.ref.allele.freq",
+		ref_samples = "refSize/{trait}/{ref}.{trait}.UKBB.sample.ref",
+		ss_residual_variance = "residVar/{chr}/{test}/{trait}/{chr}.{test}.{gene}.{trait}.testSize_residualVariance",
+		genes = "../Genes/{chr}.genes",
+		vcf = "refVCFs/{chr}/{ref}/{trait}/{chr}.{ref}.{trait}.{gene}.UKBB.ref.vcf.gz",
+		tbi = "refVCFs/{chr}/{ref}/{trait}/{chr}.{ref}.{trait}.{gene}.UKBB.ref.vcf.gz.tbi",
+		multi_allelic = "InPSYght_duplicated/{chr}.InPSYght.duplicated.vars",
+		hwe = "InPSYght_hwe/{chr}.InPSYght.failHWE.vars"
+	output:
+		"estCovImp0New/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.UKBB.imp0.estimated.cov"
+	shell:
+		"Rscript Rscripts/singleGeneCovarianceEstimateImpute0.R --testallelefreq {input.test} --refallelefreq {input.ref} --vcf {input.vcf} \
+		--refsamples {input.ref_samples} --testSizeResidualVariance {input.ss_residual_variance} --geneCoord {input.genes} \
+		--gene {wildcards.gene} --chr {wildcards.chr} --refsize {wildcards.ref} --testsize {wildcards.test} --output {output} --multiAllelic {input.multi_allelic} --InPSYghtHWE {input.hwe}"
+		
+
+
+#Run raremetal for pLOF, pLOF + missense(narrow), and pLOF + missense(broad) for imputed0 covariance (estimated using the reference panel)
+#Note that the R script does not take as input the group files but rather if you want the analysis done, so any changes to this rule 
+#in subsequent snakefiles must also change the R script. It assumes a certain format of the group files and raremetal input files 
+#see singleGeneRaremetalCaller.R --help for more description
+rule raremetal_imp0:
+	input:
+		summaryFiles =  "raremetalFilesNew/summary/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.summaryFiles",
+		score_file_zip = "rmw/{chr}/{test}/{trait}/{chr}.{test}.{gene}.{trait}.singlevar.score.txt.gz",
+		covFiles_imp0_UKBB = "raremetalFilesNew/impCov/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.UKBB.imputed0.est_covFiles",
+		covFiles_imp0_InPSYght = "raremetalFilesNew/impCov/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.InPSYght.imputed0.est_covFiles",
+		cov_est_imp0_UKBB = "estCovImp0New/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.UKBB.imp0.estimated.cov.gz",
+		tabix_covFiles_imp0_UKBB = "estCovImp0New/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.UKBB.imp0.estimated.cov.gz.tbi",
+		cov_est_imp0_InPSYght = "estCovImp0New/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.InPSYght.imp0.estimated.cov.gz",
+		tabix_covFiles_imp0_InPSYght = "estCovImp0New/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.InPSYght.imp0.estimated.cov.gz.tbi",
+		PTV = "groupFilesNew/PTV/{chr}/{test}/{trait}/{chr}.{test}.{trait}.{gene}.PTV.group.file",
+		MISSENSE = "groupFilesNew/MISSENSE/{chr}/{test}/{trait}/{chr}.{test}.{trait}.{gene}.MISSENSE.group.file",
+		BROADMISSENSE = "groupFilesNew/BROADMISSENSE/{chr}/{test}/{trait}/{chr}.{test}.{trait}.{gene}.BROADMISSENSE.group.file"
+	output:
+		"raremetalNew/burden/PTV/{chr}/{test}/{ref}/{trait}/{gene}/{chr}.{test}.{ref}.{trait}.{gene}.IMPUTED0_UKBB_PTV.meta.burden.results",
+		"raremetalNew/burden/MISSENSE/{chr}/{test}/{ref}/{trait}/{gene}/{chr}.{test}.{ref}.{trait}.{gene}.IMPUTED0_UKBB_MISSENSE.meta.burden.results",
+		"raremetalNew/burden/BROADMISSENSE/{chr}/{test}/{ref}/{trait}/{gene}/{chr}.{test}.{ref}.{trait}.{gene}.IMPUTED0_UKBB_BROADMISSENSE.meta.burden.results",
+		"raremetalNew/burden/PTV/{chr}/{test}/{ref}/{trait}/{gene}/{chr}.{test}.{ref}.{trait}.{gene}.IMPUTED0_InPSYght_PTV.meta.burden.results",
+		"raremetalNew/burden/MISSENSE/{chr}/{test}/{ref}/{trait}/{gene}/{chr}.{test}.{ref}.{trait}.{gene}.IMPUTED0_InPSYght_MISSENSE.meta.burden.results",
+		"raremetalNew/burden/BROADMISSENSE/{chr}/{test}/{ref}/{trait}/{gene}/{chr}.{test}.{ref}.{trait}.{gene}.IMPUTED0_InPSYght_BROADMISSENSE.meta.burden.results",
+		done = "raremetalNew/burden/done/imputed0/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.done"
+	resources: 
+		time="24:00:00"
+	shell:
+		"Rscript Rscripts/InPSYghtFinalSingleGeneRaremetalCaller.R --PTV T --narrowMissense T --broadMissense T --chr {wildcards.chr} \
+		--testsize {wildcards.test} --refsize {wildcards.ref} --traitname {wildcards.trait} --gene {wildcards.gene} --trueCov F --estCov T --all0Cov F \
+		--summaryFiles {input.summaryFiles} --done {output.done} --estCovFilesImp0UKBB {input.covFiles_imp0_UKBB} --estCovFilesImp0InPSYght {input.covFiles_imp0_InPSYght}" 	
+
+#Run raremetal for pLOF, pLOF + missense(narrow), and pLOF + missense(broad) using null and in-sample covariance
+#Note that the R script does not take as input the group files but rather if you want the analysis done, so any changes to this rule 
+#in subsequent snakefiles must also change the R script. It assumes a certain format of the group files and raremetal input files 
+#see singleGeneRaremetalCaller.R --help for more description
+rule raremetal_all0:
+	input:
+		summaryFiles = "raremetalFilesNew/all0/summary/{chr}/{test}/{trait}/{chr}.{test}.{trait}.{gene}.summaryFiles",
+		true_covFiles = "raremetalFilesNew/all0/trueCov/{chr}/{test}/{trait}/{chr}.{test}.{trait}.{gene}.true_covFiles",
+		all0_covfiles = "raremetalFilesNew/all0/all0Cov/{chr}/{test}/{trait}/{chr}.{test}.{trait}.{gene}.all0.est_covFiles",
+		score_file_zip = "rmw/{chr}/{test}/{trait}/{chr}.{test}.{gene}.{trait}.singlevar.score.txt.gz",
+		score_file_tbi = "rmw/{chr}/{test}/{trait}/{chr}.{test}.{gene}.{trait}.singlevar.score.txt.gz.tbi",
+		all0_cov = "estCovAll0New/{chr}/{test}/{trait}/{chr}.{test}.{trait}.{gene}.all0.estimated.cov.gz",
+		all0_cov_tbi = "estCovAll0New/{chr}/{test}/{trait}/{chr}.{test}.{trait}.{gene}.all0.estimated.cov.gz.tbi",
+		true_cov = "rmw/{chr}/{test}/{trait}/{chr}.{test}.{gene}.{trait}.singlevar.cov.txt.gz",
+		true_cov_tbi = "rmw/{chr}/{test}/{trait}/{chr}.{test}.{gene}.{trait}.singlevar.cov.txt.gz.tbi",
+		PTV = "groupFilesNew/PTV/{chr}/{test}/{trait}/{chr}.{test}.{trait}.{gene}.PTV.group.file",
+		MISSENSE = "groupFilesNew/MISSENSE/{chr}/{test}/{trait}/{chr}.{test}.{trait}.{gene}.MISSENSE.group.file",
+		BROADMISSENSE = "groupFilesNew/BROADMISSENSE/{chr}/{test}/{trait}/{chr}.{test}.{trait}.{gene}.BROADMISSENSE.group.file"
+	output:
+		"raremetalNew/burden/PTV/{chr}/{test}/{trait}/{gene}/{chr}.{test}.{trait}.{gene}.UNRESTRICTED_PTV.meta.burden.results",
+		"raremetalNew/burden/MISSENSE/{chr}/{test}/{trait}/{gene}/{chr}.{test}.{trait}.{gene}.UNRESTRICTED_MISSENSE.meta.burden.results",
+		"raremetalNew/burden/BROADMISSENSE/{chr}/{test}/{trait}/{gene}/{chr}.{test}.{trait}.{gene}.UNRESTRICTED_BROADMISSENSE.meta.burden.results",
+		"raremetalNew/burden/PTV/{chr}/{test}/{trait}/{gene}/{chr}.{test}.{trait}.{gene}.ALL0_PTV.meta.burden.results",
+		"raremetalNew/burden/MISSENSE/{chr}/{test}/{trait}/{gene}/{chr}.{test}.{trait}.{gene}.ALL0_MISSENSE.meta.burden.results",
+		"raremetalNew/burden/BROADMISSENSE/{chr}/{test}/{trait}/{gene}/{chr}.{test}.{trait}.{gene}.ALL0_BROADMISSENSE.meta.burden.results",
+		done = "raremetalNew/burden/done/all0/{chr}/{test}/{trait}/{chr}.{test}.{trait}.{gene}.done"
+	resources: 
+		time="24:00:00"
+	shell:
+		"Rscript Rscripts/InPSYghtFinalSingleGeneRaremetalCaller.R --PTV T --narrowMissense T --broadMissense T --chr {wildcards.chr} \
+		--testsize {wildcards.test} --traitname {wildcards.trait} --gene {wildcards.gene} --trueCov T --estCov F --all0Cov T \
+		--summaryFiles {input.summaryFiles} --done {output.done} --covFilesAll0 {input.all0_covfiles} --trueCovFiles {input.true_covFiles}" 	
+	
+
+
+
+
