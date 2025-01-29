@@ -29,7 +29,7 @@ TEST_2 = ["140000"]
 TEST_3 = ["145000"]
 TEST_4 = ["150000"]
 
-REF = ["100", "500", "1000", "5000", "10000"]
+REF = ["100", "500", "1000", "10000"]
 
 TRAIT_1 = ["ApolipoproteinA"]
 TRAIT_2 = ["meanSpheredCellVolume", "glycatedHaemoglobin", "totalBilirubin"]

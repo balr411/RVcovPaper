@@ -1,5 +1,5 @@
-#This Snakefile performs our usual simulation with UKBB summary statistics
-#and 5 different reference panels from UKBB and InPSYght
+#Note that although this script is currently found in /Scripts/2.InPSYghtAnalysis/, it should be placed in ../..
+#It is here only since there are multiple Snakefiles in the project and they can get confused
 
 CHR_1 = ["c1"]
 CHR_2 = ["c2"]
@@ -26,7 +26,7 @@ CHR_22 = ["c22"]
 
 TEST = ["139977"]
 
-REF = ["100", "500", "1000", "4999", "7500"]
+REF = ["100", "500", "1000", "7500"]
 
 TRAIT = ["meanSpheredCellVolume"]
 
@@ -126,7 +126,7 @@ rule reduce_test_vcf:
 		vcf_test = "testVCFs/{chr}/{test}/{trait}/{chr}.{test}.{trait}.{gene}.test.vcf.gz",
 		tbi_test = "testVCFs/{chr}/{test}/{trait}/{chr}.{test}.{trait}.{gene}.test.vcf.gz.tbi"
 	shell:
-		"Rscript Rscripts/InPSYghtFinalSingleGeneUKBBVCFReducerOneSet.R --vcf {input.vcf} --samples {input.sample_test} --gene {wildcards.gene} --chr {wildcards.chr} \
+		"Rscript Scripts/2.InPSYghtAnalysis/InPSYghtFinalSingleGeneUKBBVCFReducerOneSet.R --vcf {input.vcf} --samples {input.sample_test} --gene {wildcards.gene} --chr {wildcards.chr} \
 		--output {output.vcf_test}"
 		
 #Rule to create individual UKBB reference vcf with proper samples for each gene - Note there will be a hidden dependancy on ../Genes/{chr}.genes having been created already
@@ -138,7 +138,7 @@ rule reduce_UKBB_ref_vcf:
 		vcf_ref = "refVCFs/{chr}/{ref}/{trait}/{chr}.{ref}.{trait}.{gene}.UKBB.ref.vcf.gz",
 		tbi_ref = "refVCFs/{chr}/{ref}/{trait}/{chr}.{ref}.{trait}.{gene}.UKBB.ref.vcf.gz.tbi"
 	shell:
-		"Rscript Rscripts/InPSYghtFinalSingleGeneUKBBVCFReducerOneSet.R --vcf {input.vcf} --samples {input.sample_ref} --gene {wildcards.gene} --chr {wildcards.chr} \
+		"Rscript Scripts/2.InPSYghtAnalysis/InPSYghtFinalSingleGeneUKBBVCFReducerOneSet.R --vcf {input.vcf} --samples {input.sample_ref} --gene {wildcards.gene} --chr {wildcards.chr} \
 		--output {output.vcf_ref}"
 
 #Rule to create InPSYght reference vcf with proper samples for each gene - Note there will be a hidden dependancy on ../Genes/{chr}.genes having been created already
@@ -149,7 +149,7 @@ rule reduce_InPSYght_ref_vcf:
 		vcf_ref = "refVCFs/{chr}/{ref}/{trait}/{chr}.{ref}.{trait}.{gene}.InPSYght.ref.vcf.gz",
 		tbi_ref = "refVCFs/{chr}/{ref}/{trait}/{chr}.{ref}.{trait}.{gene}.InPSYght.ref.vcf.gz.tbi"
 	shell:
-		"Rscript Rscripts/InPSYghtFinalSingleGeneInPSYghtVCFReducerOneSet.R --samples {input.sample_ref} --gene {wildcards.gene} --chr {wildcards.chr} --output {output.vcf_ref}"
+		"Rscript Scripts/2.InPSYghtAnalysis/InPSYghtFinalSingleGeneInPSYghtVCFReducerOneSet.R --samples {input.sample_ref} --gene {wildcards.gene} --chr {wildcards.chr} --output {output.vcf_ref}"
 
 #Run raremetalworker on the test VCF
 #Note that raremetalworker always appends trait to the end of the prefix
@@ -176,7 +176,7 @@ rule ss_residual_variance:
 	output:
 		"residVar/{chr}/{test}/{trait}/{chr}.{test}.{gene}.{trait}.testSize_residualVariance"
 	shell:
-		"Rscript Rscripts/sampleSizeResidualVariance.R --scoreStat {input} --output {output}"
+		"Rscript Scripts/2.InPSYghtAnalysis/sampleSizeResidualVariance.R --scoreStat {input} --output {output}"
 
 #Get allele frequency file for test set 
 rule allele_freq_test:
@@ -233,7 +233,7 @@ rule group_file:
 		narrowMissense = "groupFilesNew/MISSENSE/{chr}/{test}/{trait}/{chr}.{test}.{trait}.{gene}.MISSENSE.group.file",
 		broadMissense = "groupFilesNew/BROADMISSENSE/{chr}/{test}/{trait}/{chr}.{test}.{trait}.{gene}.BROADMISSENSE.group.file"
 	shell:
-		"Rscript Rscripts/InPSYghtGenerate_pLOF_narrowMissense_broadMissense.R --allelefreq {input.allele_freq} --anno {input.anno} --gene {wildcards.gene} --geneCoord {input.genes} --groupStats {output.group_stats} \
+		"Rscript Scripts/2.InPSYghtAnalysis/InPSYghtGenerate_pLOF_narrowMissense_broadMissense.R --allelefreq {input.allele_freq} --anno {input.anno} --gene {wildcards.gene} --geneCoord {input.genes} --groupStats {output.group_stats} \
 		--outputPTV {output.PTV} --outputNarrowMissense {output.narrowMissense} --outputBroadMissense {output.broadMissense} --multiAllelic {input.multi_allelic} --InPSYghtHWE {input.hwe}"
 
 #Create a covariance file with all covariances set to 0, and the variance estimated from the test set 
@@ -248,7 +248,7 @@ rule estimated_cov_all0:
 	output:
 		"estCovAll0New/{chr}/{test}/{trait}/{chr}.{test}.{trait}.{gene}.all0.estimated.cov"
 	shell:
-		"Rscript Rscripts/InPSYghtFinalSingleGeneCovarianceEstimateAll0.R --testallelefreq {input.test} --testSizeResidualVariance {input.ss_residual_variance} --geneCoord {input.genes} \
+		"Rscript Scripts/2.InPSYghtAnalysis/InPSYghtFinalSingleGeneCovarianceEstimateAll0.R --testallelefreq {input.test} --testSizeResidualVariance {input.ss_residual_variance} --geneCoord {input.genes} \
 		--gene {wildcards.gene} --chr {wildcards.chr} --testsize {wildcards.test} --output {output} --multiAllelic {input.multi_allelic} --InPSYghtHWE {input.hwe}"
 		
 #Create a covariance file calculated using the UKBB external reference panel and imputing missing variants to 0
@@ -267,16 +267,93 @@ rule estimated_cov_UKBB_imp0:
 	output:
 		"estCovImp0New/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.UKBB.imp0.estimated.cov"
 	shell:
-		"Rscript Rscripts/singleGeneCovarianceEstimateImpute0.R --testallelefreq {input.test} --refallelefreq {input.ref} --vcf {input.vcf} \
+		"Rscript Scripts/2.InPSYghtAnalysis/singleGeneCovarianceEstimateImpute0.R --testallelefreq {input.test} --refallelefreq {input.ref} --vcf {input.vcf} \
 		--refsamples {input.ref_samples} --testSizeResidualVariance {input.ss_residual_variance} --geneCoord {input.genes} \
 		--gene {wildcards.gene} --chr {wildcards.chr} --refsize {wildcards.ref} --testsize {wildcards.test} --output {output} --multiAllelic {input.multi_allelic} --InPSYghtHWE {input.hwe}"
 		
+#Create a covariance file calculated using the InPSYght external reference panel and imputing missing variants to 0
+#Again note that this outputs an empty file if there are no variants in the gene (unlikely)
+rule estimated_cov_InPSYght_imp0:
+	input:
+		test = "testAF/{chr}/{test}/{trait}/{chr}.{test}.{trait}.{gene}.test.allele.freq",
+		ref = "refAF/{chr}/{ref}/{trait}/{chr}.{ref}.{trait}.{gene}.InPSYght.ref.allele.freq",
+		ref_samples = "refSize/{trait}/{ref}.{trait}.InPSYght.sample.ref",
+		ss_residual_variance = "residVar/{chr}/{test}/{trait}/{chr}.{test}.{gene}.{trait}.testSize_residualVariance",
+		genes = "../Genes/{chr}.genes",
+		vcf = "refVCFs/{chr}/{ref}/{trait}/{chr}.{ref}.{trait}.{gene}.InPSYght.ref.vcf.gz",
+		tbi = "refVCFs/{chr}/{ref}/{trait}/{chr}.{ref}.{trait}.{gene}.InPSYght.ref.vcf.gz.tbi",
+		multi_allelic = "InPSYght_duplicated/{chr}.InPSYght.duplicated.vars",
+		hwe = "InPSYght_hwe/{chr}.InPSYght.failHWE.vars"
+	output:
+		"estCovImp0New/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.InPSYght.imp0.estimated.cov"
+	shell:
+		"Rscript Scripts/2.InPSYghtAnalysis/InPSYght_covariance_estimate_sparse.R --testallelefreq {input.test} --refallelefreq {input.ref} --vcf {input.vcf} \
+		--refsamples {input.ref_samples} --testSizeResidualVariance {input.ss_residual_variance} --geneCoord {input.genes} \
+		--gene {wildcards.gene} --chr {wildcards.chr} --refsize {wildcards.ref} --testsize {wildcards.test} --output {output} --multiAllelic {input.multi_allelic} --InPSYghtHWE {input.hwe}"
 
+#Create summaryFiles and covFiles for three of the four settings for raremetal
+rule raremetal_files:
+	input: #pass an input file that won't be used just so Snakemake doesn't complain
+		genes = "../Genes/{chr}.genes"
+	output:
+		summaryFiles = "raremetalFilesNew/summary/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.summaryFiles",
+		true_covFiles = "raremetalFilesNew/trueCov/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.true_covFiles",
+		imp_covFiles_UKBB = "raremetalFilesNew/impCov/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.UKBB.imputed0.est_covFiles",
+		imp_covFiles_InPSYght = "raremetalFilesNew/impCov/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.InPSYght.imputed0.est_covFiles"
+	shell:
+		"""
+		Rscript Scripts/2.InPSYghtAnalysis/InPSYghtFinalSingleGeneRaremetalFiles.R --chr {wildcards.chr} --testsize {wildcards.test} --refsize {wildcards.ref} --trait {wildcards.trait} --gene {wildcards.gene} --trueCovFiles {output.true_covFiles} --impCovFilesUKBB {output.imp_covFiles_UKBB} --impCovFilesInPSYght {output.imp_covFiles_InPSYght} --summaryFiles {output.summaryFiles}
+		"""
+
+#Create summaryFiles and covFiles for all0 covariance 
+rule raremetal_files_all0:
+	input: #pass an input file that won't be used just so Snakemake doesn't complain
+		genes = "../Genes/{chr}.genes"
+	output:
+		summaryFiles = "raremetalFilesNew/all0/summary/{chr}/{test}/{trait}/{chr}.{test}.{trait}.{gene}.summaryFiles",
+		true_covFiles = "raremetalFilesNew/all0/trueCov/{chr}/{test}/{trait}/{chr}.{test}.{trait}.{gene}.true_covFiles",
+		all0_covfiles = "raremetalFilesNew/all0/all0Cov/{chr}/{test}/{trait}/{chr}.{test}.{trait}.{gene}.all0.est_covFiles"
+	shell:
+		"""
+		Rscript Scripts/2.InPSYghtAnalysis/InPSYghtFinalSingleGeneRaremetalFilesAll0.R --chr {wildcards.chr} --testsize {wildcards.test} --trait {wildcards.trait} --gene {wildcards.gene} --trueCovFiles {output.true_covFiles} --all0CovFiles {output.all0_covfiles} --summaryFiles {output.summaryFiles}
+		"""
+
+#bgzip and tabix the imp0 covariance files
+rule bgzip_tab_imp0:
+	input:
+		est_cov_UKBB_imp0 = "estCovImp0New/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.UKBB.imp0.estimated.cov",
+		est_cov_InPSYght_imp0 = "estCovImp0New/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.InPSYght.imp0.estimated.cov"
+	output:
+		"estCovImp0New/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.UKBB.imp0.estimated.cov.gz",
+		"estCovImp0New/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.UKBB.imp0.estimated.cov.gz.tbi",
+		"estCovImp0New/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.InPSYght.imp0.estimated.cov.gz",
+		"estCovImp0New/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.InPSYght.imp0.estimated.cov.gz.tbi"
+	shell:
+		"Rscript Scripts/2.InPSYghtAnalysis/InPSYghtFinalBgzipTabixImp0.R --estCovImp0UKBB {input.est_cov_UKBB_imp0} --estCovImp0InPSYght {input.est_cov_InPSYght_imp0}"
+		
+#bgzip and tabix the all0 covariance files and the raremetalworker files
+#Note we need to use allele_freq as a dependency since we need the unzipped score file to create it
+rule bgzip_tab_all0:
+	input: 
+		cov_all0 = "estCovAll0New/{chr}/{test}/{trait}/{chr}.{test}.{trait}.{gene}.all0.estimated.cov",
+		true_cov = "rmw/{chr}/{test}/{trait}/{chr}.{test}.{gene}.{trait}.singlevar.cov.txt",
+		summary_files = "rmw/{chr}/{test}/{trait}/{chr}.{test}.{gene}.{trait}.singlevar.score.txt",
+		allele_freq = "testAF/{chr}/{test}/{trait}/{chr}.{test}.{trait}.{gene}.test.allele.freq"
+	output:
+		"estCovAll0New/{chr}/{test}/{trait}/{chr}.{test}.{trait}.{gene}.all0.estimated.cov.gz",
+		"estCovAll0New/{chr}/{test}/{trait}/{chr}.{test}.{trait}.{gene}.all0.estimated.cov.gz.tbi",
+		"rmw/{chr}/{test}/{trait}/{chr}.{test}.{gene}.{trait}.singlevar.cov.txt.gz",
+		"rmw/{chr}/{test}/{trait}/{chr}.{test}.{gene}.{trait}.singlevar.cov.txt.gz.tbi",
+		"rmw/{chr}/{test}/{trait}/{chr}.{test}.{gene}.{trait}.singlevar.score.txt.gz",
+		"rmw/{chr}/{test}/{trait}/{chr}.{test}.{gene}.{trait}.singlevar.score.txt.gz.tbi"
+	shell:
+		"Rscript Scripts/2.InPSYghtAnalysis/InPSYghtFinalBgzipTabixAll0.R --estCovAll0 {input.cov_all0} --trueCov {input.true_cov} --scoreFile {input.summary_files}"
+		
 
 #Run raremetal for pLOF, pLOF + missense(narrow), and pLOF + missense(broad) for imputed0 covariance (estimated using the reference panel)
 #Note that the R script does not take as input the group files but rather if you want the analysis done, so any changes to this rule 
 #in subsequent snakefiles must also change the R script. It assumes a certain format of the group files and raremetal input files 
-#see singleGeneRaremetalCaller.R --help for more description
+#see InPSYghtFinalSingleGeneRaremetalCaller.R --help for more description
 rule raremetal_imp0:
 	input:
 		summaryFiles =  "raremetalFilesNew/summary/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.summaryFiles",
@@ -301,14 +378,14 @@ rule raremetal_imp0:
 	resources: 
 		time="24:00:00"
 	shell:
-		"Rscript Rscripts/InPSYghtFinalSingleGeneRaremetalCaller.R --PTV T --narrowMissense T --broadMissense T --chr {wildcards.chr} \
+		"Rscript Scripts/2.InPSYghtAnalysis/InPSYghtFinalSingleGeneRaremetalCaller.R --PTV T --narrowMissense T --broadMissense T --chr {wildcards.chr} \
 		--testsize {wildcards.test} --refsize {wildcards.ref} --traitname {wildcards.trait} --gene {wildcards.gene} --trueCov F --estCov T --all0Cov F \
 		--summaryFiles {input.summaryFiles} --done {output.done} --estCovFilesImp0UKBB {input.covFiles_imp0_UKBB} --estCovFilesImp0InPSYght {input.covFiles_imp0_InPSYght}" 	
 
 #Run raremetal for pLOF, pLOF + missense(narrow), and pLOF + missense(broad) using null and in-sample covariance
 #Note that the R script does not take as input the group files but rather if you want the analysis done, so any changes to this rule 
 #in subsequent snakefiles must also change the R script. It assumes a certain format of the group files and raremetal input files 
-#see singleGeneRaremetalCaller.R --help for more description
+#see InPSYghtFinalSingleGeneRaremetalCaller.R --help for more description
 rule raremetal_all0:
 	input:
 		summaryFiles = "raremetalFilesNew/all0/summary/{chr}/{test}/{trait}/{chr}.{test}.{trait}.{gene}.summaryFiles",
@@ -334,7 +411,7 @@ rule raremetal_all0:
 	resources: 
 		time="24:00:00"
 	shell:
-		"Rscript Rscripts/InPSYghtFinalSingleGeneRaremetalCaller.R --PTV T --narrowMissense T --broadMissense T --chr {wildcards.chr} \
+		"Rscript Scripts/2.InPSYghtAnalysis/InPSYghtFinalSingleGeneRaremetalCaller.R --PTV T --narrowMissense T --broadMissense T --chr {wildcards.chr} \
 		--testsize {wildcards.test} --traitname {wildcards.trait} --gene {wildcards.gene} --trueCov T --estCov F --all0Cov T \
 		--summaryFiles {input.summaryFiles} --done {output.done} --covFilesAll0 {input.all0_covfiles} --trueCovFiles {input.true_covFiles}" 	
 	
