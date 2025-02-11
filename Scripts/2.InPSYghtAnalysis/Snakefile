@@ -1,4 +1,5 @@
 #Note that although this script is currently found in /Scripts/2.InPSYghtAnalysis/, it should be placed in ../..
+#../.. should be one level higher than the directory in which the original analysis was run.
 #It is here only since there are multiple Snakefiles in the project and they can get confused
 
 CHR_1 = ["c1"]
