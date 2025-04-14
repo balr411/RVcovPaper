@@ -27,7 +27,7 @@ CHR_22 = ["c22"]
 
 TEST = ["139977"]
 
-REF = ["100", "500", "1000", "7500"]
+REF = ["100", "1000", "7000"]
 
 TRAIT = ["meanSpheredCellVolume"]
 
@@ -56,7 +56,7 @@ GENES_20 = [x.split('	')[0] for x in open("../Genes/c20.genes").readlines()]
 GENES_21 = [x.split('	')[0] for x in open("../Genes/c21.genes").readlines()]
 GENES_22 = [x.split('	')[0] for x in open("../Genes/c22.genes").readlines()]
 
-localrules: raremetal_files, raremetal_files_all0, ss_residual_variance
+localrules: raremetal_files_all0, ss_residual_variance, raremetal_files_ukbb, raremetal_files_inpsyght
 
 wildcard_constraints:
     chr = "[a-zA-Z0-9]+",
@@ -216,8 +216,8 @@ rule allele_freq_ref_InPSYght:
 #All mask files have upper threshold set at 0.01
 #Note also that the files "InPSYght_duplicated/{chr}.InPSYght.duplicated.vars" and 
 #"InPSYght_hwe/{chr}.InPSYght.failHWE.vars" must have already been created. The former
-#is a file containing a list of the multi-allelic variants in InPSYght, and can be created using the script multi_var_files.R.
-#The latter is a list of the variants that did not pass the HWE threshold of p>10^-6, and can be created using the script hwe_writer.R
+#is a file containing a list of the multi-allelic variants in InPSYght, and can be created using the script duplicated_hwe_vars.R.
+#The latter is a list of the variants that did not pass the HWE threshold of p>10^-6, and can also be created using the script duplicated_hwe_vars.R
 #Also note that ../Annotations/{chr}.vcf.vep.reduced is a VEP file which has been reduced to only include pLOF + missense(broad) variants
 #It also has a column Sum_Algs added that is 1 if the missense variant was predicted deleterious by each of LRT, PolyPhen2 HVAR, PolyPhen2 HVID,
 #MutationTaster, and SIFT4G. A script to generate such a file is given in Scripts/1.mainAnalysis/VEPreducer.R
@@ -268,7 +268,7 @@ rule estimated_cov_UKBB_imp0:
 	output:
 		"estCovImp0New/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.UKBB.imp0.estimated.cov"
 	shell:
-		"Rscript Scripts/2.InPSYghtAnalysis/singleGeneCovarianceEstimateImpute0.R --testallelefreq {input.test} --refallelefreq {input.ref} --vcf {input.vcf} \
+		"Rscript Scripts/2.InPSYghtAnalysis/UKBB_covariance_estimate_sparse.R --testallelefreq {input.test} --refallelefreq {input.ref} --vcf {input.vcf} \
 		--refsamples {input.ref_samples} --testSizeResidualVariance {input.ss_residual_variance} --geneCoord {input.genes} \
 		--gene {wildcards.gene} --chr {wildcards.chr} --refsize {wildcards.ref} --testsize {wildcards.test} --output {output} --multiAllelic {input.multi_allelic} --InPSYghtHWE {input.hwe}"
 		
@@ -293,17 +293,26 @@ rule estimated_cov_InPSYght_imp0:
 		--gene {wildcards.gene} --chr {wildcards.chr} --refsize {wildcards.ref} --testsize {wildcards.test} --output {output} --multiAllelic {input.multi_allelic} --InPSYghtHWE {input.hwe}"
 
 #Create summaryFiles and covFiles for three of the four settings for raremetal
-rule raremetal_files:
+rule raremetal_files_inpsyght:
 	input: #pass an input file that won't be used just so Snakemake doesn't complain
 		genes = "../Genes/{chr}.genes"
 	output:
 		summaryFiles = "raremetalFilesNew/summary/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.summaryFiles",
 		true_covFiles = "raremetalFilesNew/trueCov/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.true_covFiles",
-		imp_covFiles_UKBB = "raremetalFilesNew/impCov/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.UKBB.imputed0.est_covFiles",
 		imp_covFiles_InPSYght = "raremetalFilesNew/impCov/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.InPSYght.imputed0.est_covFiles"
 	shell:
 		"""
-		Rscript Scripts/2.InPSYghtAnalysis/InPSYghtFinalSingleGeneRaremetalFiles.R --chr {wildcards.chr} --testsize {wildcards.test} --refsize {wildcards.ref} --trait {wildcards.trait} --gene {wildcards.gene} --trueCovFiles {output.true_covFiles} --impCovFilesUKBB {output.imp_covFiles_UKBB} --impCovFilesInPSYght {output.imp_covFiles_InPSYght} --summaryFiles {output.summaryFiles}
+		Rscript Scripts/2.InPSYghtAnalysis/InPSYghtOnly_FinalSingleGeneRaremetalFiles.R --chr {wildcards.chr} --testsize {wildcards.test} --refsize {wildcards.ref} --trait {wildcards.trait} --gene {wildcards.gene} --trueCovFiles {output.true_covFiles} --impCovFilesInPSYght {output.imp_covFiles_InPSYght} --summaryFiles {output.summaryFiles}
+		"""
+		
+rule raremetal_files_ukbb:
+	input: #pass an input file that won't be used just so Snakemake doesn't complain
+		genes = "../Genes/{chr}.genes"
+	output:
+		imp_covFiles_UKBB = "raremetalFilesNew/impCov/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.UKBB.imputed0.est_covFiles"
+	shell:
+		"""
+		Rscript Scripts/2.InPSYghtAnalysis/InPSYghtFinal_UKBB_SingleGeneRaremetalFiles.R --chr {wildcards.chr} --testsize {wildcards.test} --refsize {wildcards.ref} --trait {wildcards.trait} --gene {wildcards.gene} --impCovFilesUKBB {output.imp_covFiles_UKBB}
 		"""
 
 #Create summaryFiles and covFiles for all0 covariance 
@@ -320,17 +329,25 @@ rule raremetal_files_all0:
 		"""
 
 #bgzip and tabix the imp0 covariance files
-rule bgzip_tab_imp0:
+## Note that many of the UKBB files will already be bgzipped so fix this
+# Actually should change the rmw rule to automatically gzip actually
+rule bgzip_tab_imp0_ukbb:
 	input:
-		est_cov_UKBB_imp0 = "estCovImp0New/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.UKBB.imp0.estimated.cov",
-		est_cov_InPSYght_imp0 = "estCovImp0New/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.InPSYght.imp0.estimated.cov"
+		est_cov_UKBB_imp0 = "estCovImp0New/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.UKBB.imp0.estimated.cov"
 	output:
 		"estCovImp0New/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.UKBB.imp0.estimated.cov.gz",
-		"estCovImp0New/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.UKBB.imp0.estimated.cov.gz.tbi",
+		"estCovImp0New/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.UKBB.imp0.estimated.cov.gz.tbi"
+	shell:
+		"Rscript Scripts/2.InPSYghtAnalysis/InPSYghtFinalBgzipTabixImp0_ukbb.R --estCovImp0UKBB {input.est_cov_UKBB_imp0}"
+		
+rule bgzip_tab_imp0_inpsyght:
+	input:
+		est_cov_InPSYght_imp0 = "estCovImp0New/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.InPSYght.imp0.estimated.cov"
+	output:
 		"estCovImp0New/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.InPSYght.imp0.estimated.cov.gz",
 		"estCovImp0New/{chr}/{test}/{ref}/{trait}/{chr}.{test}.{ref}.{trait}.{gene}.InPSYght.imp0.estimated.cov.gz.tbi"
 	shell:
-		"Rscript Scripts/2.InPSYghtAnalysis/InPSYghtFinalBgzipTabixImp0.R --estCovImp0UKBB {input.est_cov_UKBB_imp0} --estCovImp0InPSYght {input.est_cov_InPSYght_imp0}"
+		"Rscript Scripts/2.InPSYghtAnalysis/InPSYghtFinalBgzipTabixImp0_inpsyght.R --estCovImp0InPSYght {input.est_cov_InPSYght_imp0}"
 		
 #bgzip and tabix the all0 covariance files and the raremetalworker files
 #Note we need to use allele_freq as a dependency since we need the unzipped score file to create it
@@ -416,7 +433,3 @@ rule raremetal_all0:
 		--testsize {wildcards.test} --traitname {wildcards.trait} --gene {wildcards.gene} --trueCov T --estCov F --all0Cov T \
 		--summaryFiles {input.summaryFiles} --done {output.done} --covFilesAll0 {input.all0_covfiles} --trueCovFiles {input.true_covFiles}" 	
 	
-
-
-
-

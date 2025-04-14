@@ -13,11 +13,10 @@ p <- add_argument(p, "--refsamples", help = "Output file containing reference sa
 
 argv <- parse_args(p)
 
-phenotype_samples <- read.table(as.character(argv$phenosamples), header=T) #note sometimes header should be FALSE, so check before running
+phenotype_samples <- read.table(as.character(argv$phenosamples), header=T) 
 exclusion_list <- read.csv(as.character(argv$exclusionlist), header=F)
 related_samples <- read.table(argv$relatedsamples, header = F)
 
-#Note below we would normally intersect with the chromosome samples but I am now doing this before writing the phenotype samples file
 common_samples <- phenotype_samples[[1]]
 
 #Check to see if any of these samples overlap with exclusion list
