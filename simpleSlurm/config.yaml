@@ -1,0 +1,27 @@
+cluster:
+  mkdir -p logs/{rule} &&
+  sbatch
+    --partition={resources.partition}
+    --cpus-per-task={threads}
+    --mem={resources.mem_mb}
+    --job-name=smk-{rule}-{wildcards}
+    --time={resources.time}
+    --output=logs/{rule}/{rule}-{wildcards}-%j.out
+    --parsable
+default-resources:
+  - partition=main
+  - mem_mb=60000
+  - disk_mb=10000
+  - time="24:00:00"
+restart-times: 0
+max-jobs-per-second: 10
+max-status-checks-per-second: 10
+local-cores: 10
+latency-wait: 60
+jobs: 100
+keep-going: True
+rerun-incomplete: True
+printshellcmds: True
+scheduler: greedy
+use-conda: True
+cluster-status: status-sacct.sh
