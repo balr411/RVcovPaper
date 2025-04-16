@@ -1,0 +1,153 @@
+#This Snakemake pipeline generates the data for the 20 studies of 6,998 individuals for the meta-analysis simulation
+
+CHR_1 = ["c1"]
+CHR_2 = ["c2"]
+CHR_3 = ["c3"]
+CHR_4 = ["c4"]
+CHR_5 = ["c5"]
+CHR_6 = ["c6"]
+CHR_7 = ["c7"]
+CHR_8 = ["c8"]
+CHR_9 = ["c9"]
+CHR_10 = ["c10"]
+CHR_11 = ["c11"]
+CHR_12 = ["c12"]
+CHR_13 = ["c13"]
+CHR_14 = ["c14"]
+CHR_15 = ["c15"]
+CHR_16 = ["c16"]
+CHR_17 = ["c17"]
+CHR_18 = ["c18"]
+CHR_19 = ["c19"]
+CHR_20 = ["c20"]
+CHR_21 = ["c21"]
+CHR_22 = ["c22"]
+
+STUDY = ["S1", "S2", "S3", "S4", "S5", "S6", "S7", "S8", "S9", "S10", "S11", "S12", "S13", "S14", "S15", "S16", "S17", "S18", "S19", "S20"]
+
+TEST = ["6998"]
+
+TRAIT = ["meanSpheredCellVolume"]
+
+#Create vector of genes for each of the chromosomes
+GENES_1 = [x.split('	')[0] for x in open("../Genes/c1.genes").readlines()]
+GENES_2 = [x.split('	')[0] for x in open("../Genes/c2.genes").readlines()]
+GENES_3 = [x.split('	')[0] for x in open("../Genes/c3.genes").readlines()]
+GENES_4 = [x.split('	')[0] for x in open("../Genes/c4.genes").readlines()]
+GENES_5 = [x.split('	')[0] for x in open("../Genes/c5.genes").readlines()]
+GENES_6 = [x.split('	')[0] for x in open("../Genes/c6.genes").readlines()]
+GENES_7 = [x.split('	')[0] for x in open("../Genes/c7.genes").readlines()]
+GENES_8 = [x.split('	')[0] for x in open("../Genes/c8.genes").readlines()]
+GENES_9 = [x.split('	')[0] for x in open("../Genes/c9.genes").readlines()]
+GENES_10 = [x.split('	')[0] for x in open("../Genes/c10.genes").readlines()]
+GENES_11 = [x.split('	')[0] for x in open("../Genes/c11.genes").readlines()]
+GENES_12 = [x.split('	')[0] for x in open("../Genes/c12.genes").readlines()]
+GENES_13 = [x.split('	')[0] for x in open("../Genes/c13.genes").readlines()]
+GENES_14 = [x.split('	')[0] for x in open("../Genes/c14.genes").readlines()]
+GENES_15 = [x.split('	')[0] for x in open("../Genes/c15.genes").readlines()]
+GENES_16 = [x.split('	')[0] for x in open("../Genes/c16.genes").readlines()]
+GENES_17 = [x.split('	')[0] for x in open("../Genes/c17.genes").readlines()]
+GENES_18 = [x.split('	')[0] for x in open("../Genes/c18.genes").readlines()]
+GENES_19 = [x.split('	')[0] for x in open("../Genes/c19.genes").readlines()]
+GENES_20 = [x.split('	')[0] for x in open("../Genes/c20.genes").readlines()]
+GENES_21 = [x.split('	')[0] for x in open("../Genes/c21.genes").readlines()]
+GENES_22 = [x.split('	')[0] for x in open("../Genes/c22.genes").readlines()]
+
+localrules: raremetal_files, raremetal_files_all0, ss_residual_variance
+
+wildcard_constraints:
+    chr = "[a-zA-Z0-9]+",
+	test = "[0-9]+",
+	ref = "[0-9]+",
+	trait = "[a-zA-Z]+",
+	gene = "[a-zA-Z0-9\\-]+",
+	study = "[a-zA-Z0-9\\-]+"
+	
+rule all:
+	input:
+		expand("rmw/{chr}/{study}/{test}/{trait}/{chr}.{study}.{test}.{gene}.{trait}.singlevar.score.txt.gz", chr = CHR_1, gene = GENES_1, study = STUDY, trait = TRAIT, test = TEST),
+		expand("rmw/{chr}/{study}/{test}/{trait}/{chr}.{study}.{test}.{gene}.{trait}.singlevar.score.txt.gz", chr = CHR_2, gene = GENES_2, study = STUDY, trait = TRAIT, test = TEST),
+		expand("rmw/{chr}/{study}/{test}/{trait}/{chr}.{study}.{test}.{gene}.{trait}.singlevar.score.txt.gz", chr = CHR_3, gene = GENES_3, study = STUDY, trait = TRAIT, test = TEST),
+		expand("rmw/{chr}/{study}/{test}/{trait}/{chr}.{study}.{test}.{gene}.{trait}.singlevar.score.txt.gz", chr = CHR_4, gene = GENES_4, study = STUDY, trait = TRAIT, test = TEST),
+		expand("rmw/{chr}/{study}/{test}/{trait}/{chr}.{study}.{test}.{gene}.{trait}.singlevar.score.txt.gz", chr = CHR_5, gene = GENES_5, study = STUDY, trait = TRAIT, test = TEST),
+		expand("rmw/{chr}/{study}/{test}/{trait}/{chr}.{study}.{test}.{gene}.{trait}.singlevar.score.txt.gz", chr = CHR_6, gene = GENES_6, study = STUDY, trait = TRAIT, test = TEST),
+		expand("rmw/{chr}/{study}/{test}/{trait}/{chr}.{study}.{test}.{gene}.{trait}.singlevar.score.txt.gz", chr = CHR_7, gene = GENES_7, study = STUDY, trait = TRAIT, test = TEST),
+		expand("rmw/{chr}/{study}/{test}/{trait}/{chr}.{study}.{test}.{gene}.{trait}.singlevar.score.txt.gz", chr = CHR_8, gene = GENES_8, study = STUDY, trait = TRAIT, test = TEST),
+		expand("rmw/{chr}/{study}/{test}/{trait}/{chr}.{study}.{test}.{gene}.{trait}.singlevar.score.txt.gz", chr = CHR_9, gene = GENES_9, study = STUDY, trait = TRAIT, test = TEST),
+		expand("rmw/{chr}/{study}/{test}/{trait}/{chr}.{study}.{test}.{gene}.{trait}.singlevar.score.txt.gz", chr = CHR_10, gene = GENES_10, study = STUDY, trait = TRAIT, test = TEST),
+		expand("rmw/{chr}/{study}/{test}/{trait}/{chr}.{study}.{test}.{gene}.{trait}.singlevar.score.txt.gz", chr = CHR_11, gene = GENES_11, study = STUDY, trait = TRAIT, test = TEST),
+		expand("rmw/{chr}/{study}/{test}/{trait}/{chr}.{study}.{test}.{gene}.{trait}.singlevar.score.txt.gz", chr = CHR_12, gene = GENES_12, study = STUDY, trait = TRAIT, test = TEST),
+		expand("rmw/{chr}/{study}/{test}/{trait}/{chr}.{study}.{test}.{gene}.{trait}.singlevar.score.txt.gz", chr = CHR_13, gene = GENES_13, study = STUDY, trait = TRAIT, test = TEST),
+		expand("rmw/{chr}/{study}/{test}/{trait}/{chr}.{study}.{test}.{gene}.{trait}.singlevar.score.txt.gz", chr = CHR_14, gene = GENES_14, study = STUDY, trait = TRAIT, test = TEST),
+		expand("rmw/{chr}/{study}/{test}/{trait}/{chr}.{study}.{test}.{gene}.{trait}.singlevar.score.txt.gz", chr = CHR_15, gene = GENES_15, study = STUDY, trait = TRAIT, test = TEST),
+		expand("rmw/{chr}/{study}/{test}/{trait}/{chr}.{study}.{test}.{gene}.{trait}.singlevar.score.txt.gz", chr = CHR_16, gene = GENES_16, study = STUDY, trait = TRAIT, test = TEST),
+		expand("rmw/{chr}/{study}/{test}/{trait}/{chr}.{study}.{test}.{gene}.{trait}.singlevar.score.txt.gz", chr = CHR_17, gene = GENES_17, study = STUDY, trait = TRAIT, test = TEST),
+		expand("rmw/{chr}/{study}/{test}/{trait}/{chr}.{study}.{test}.{gene}.{trait}.singlevar.score.txt.gz", chr = CHR_18, gene = GENES_18, study = STUDY, trait = TRAIT, test = TEST),
+		expand("rmw/{chr}/{study}/{test}/{trait}/{chr}.{study}.{test}.{gene}.{trait}.singlevar.score.txt.gz", chr = CHR_19, gene = GENES_19, study = STUDY, trait = TRAIT, test = TEST),
+		expand("rmw/{chr}/{study}/{test}/{trait}/{chr}.{study}.{test}.{gene}.{trait}.singlevar.score.txt.gz", chr = CHR_20, gene = GENES_20, study = STUDY, trait = TRAIT, test = TEST),
+		expand("rmw/{chr}/{study}/{test}/{trait}/{chr}.{study}.{test}.{gene}.{trait}.singlevar.score.txt.gz", chr = CHR_21, gene = GENES_21, study = STUDY, trait = TRAIT, test = TEST),
+		expand("rmw/{chr}/{study}/{test}/{trait}/{chr}.{study}.{test}.{gene}.{trait}.singlevar.score.txt.gz", chr = CHR_22, gene = GENES_22, study = STUDY, trait = TRAIT, test = TEST)
+
+#The following rules may require ../Genes/{chr}.genes to have already been created 
+#Also the sample files for the test  sets need to be created outside of the pipeline and placed at 
+# "testSize/{trait}/{study}.{test}.{trait}.sample.test". A script to create this files can be found at 
+#Scripts/4.metaAnalysis/metaAnalysis_sample.R
+
+#Rule to create individual test vcf with proper samples for each gene - Note there will be a hidden dependancy on Genes/{chr}.genes having been created already
+rule reduce_test_vcf:
+	input:
+		vcf = "../FullVCFs/ukb23155_{chr}_b0_v1.new.vcf.gz",
+		sample_test = "testSize/{trait}/{study}.{test}.{trait}.sample.test"
+	output:
+		vcf_test = "testVCFs/{chr}/{study}/{test}/{trait}/{chr}.{study}.{test}.{trait}.{gene}.test.vcf.gz",
+		tbi_test = "testVCFs/{chr}/{study}/{test}/{trait}/{chr}.{study}.{test}.{trait}.{gene}.test.vcf.gz.tbi"
+	shell:
+		"Rscript Scripts/4.metaAnalysis/metaAnalysis_SingleGeneVCFReducerOneSet.R --vcf {input.vcf} --samples {input.sample_test} --gene {wildcards.gene} --chr {wildcards.chr} \
+		--output {output.vcf_test}"
+
+#Run raremetalworker on each study VCF
+#Note that raremetalworker always appends trait to the end of the prefix
+rule raremetalworker:
+	input:
+		vcf = "testVCFs/{chr}/{study}/{test}/{trait}/{chr}.{study}.{test}.{trait}.{gene}.test.vcf.gz",
+		dat = "../Phenotypes/{trait}.dat",
+		ped = "../Phenotypes/{trait}.ped",
+		tbi = "testVCFs/{chr}/{study}/{test}/{trait}/{chr}.{study}.{test}.{trait}.{gene}.test.vcf.gz.tbi",
+	params:
+		prefix="rmw/{chr}/{study}/{test}/{trait}/{chr}.{study}.{test}.{gene}"
+	output:
+		"rmw/{chr}/{study}/{test}/{trait}/{chr}.{study}.{test}.{gene}.{trait}.singlevar.cov.txt",
+		"rmw/{chr}/{study}/{test}/{trait}/{chr}.{study}.{test}.{gene}.{trait}.singlevar.score.txt",
+		temp("rmw/{chr}/{study}/{test}/{trait}/{chr}.{study}.{test}.{gene}.{trait}.additive.plots.pdf")
+	resources: mem_mb=10000, disk_mb=5000, time="24:00:00"
+	shell:
+		"/net/snowwhite/home/welchr/projects/raremetal/build/release/bin/raremetalworker --ped {input.ped} --dat {input.dat} --vcf {input.vcf} --traitname {wildcards.trait} --inverseNormal --makeResiduals --prefix {params.prefix}"
+
+#Create file with test size and residual variance since some genes have a different number of genotyped and phenotyped individuals 
+rule ss_residual_variance:
+	input:
+		"rmw/{chr}/{study}/{test}/{trait}/{chr}.{study}.{test}.{gene}.{trait}.singlevar.score.txt"
+	output:
+		"residVar/{chr}/{study}/{test}/{trait}/{chr}.{study}.{test}.{gene}.{trait}.testSize_residualVariance"
+	shell:
+		"Rscript Scripts/4.metaAnalysis/sampleSizeResidualVariance.R --scoreStat {input} --output {output}"
+		
+#bgzip and tabix the raremetalworker files
+#Note we need to use resid_var as a dependency since we need the unzipped score file to create it
+rule bgzip_tab_summary:
+	input: 
+		true_cov = "rmw/{chr}/{study}/{test}/{trait}/{chr}.{study}.{test}.{gene}.{trait}.singlevar.cov.txt",
+		summary_files = "rmw/{chr}/{study}/{test}/{trait}/{chr}.{study}.{test}.{gene}.{trait}.singlevar.score.txt",
+		resid_var = "residVar/{chr}/{study}/{test}/{trait}/{chr}.{study}.{test}.{gene}.{trait}.testSize_residualVariance"
+	output:
+		"rmw/{chr}/{study}/{test}/{trait}/{chr}.{study}.{test}.{gene}.{trait}.singlevar.cov.txt.gz",
+		"rmw/{chr}/{study}/{test}/{trait}/{chr}.{study}.{test}.{gene}.{trait}.singlevar.cov.txt.tbi",
+		"rmw/{chr}/{study}/{test}/{trait}/{chr}.{study}.{test}.{gene}.{trait}.singlevar.score.txt.gz",
+		"rmw/{chr}/{study}/{test}/{trait}/{chr}.{study}.{test}.{gene}.{trait}.singlevar.score.txt.gz.tbi"
+	shell:
+		"Rscript Scripts/4.metaAnalysis/metaAnalysis_BgzipTabixSummary.R --trueCov {input.true_cov} --scoreFile {input.summary_files}"
+
+
+
+
+
