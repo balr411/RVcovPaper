@@ -11,6 +11,10 @@ raremetal. Then use the script metaAnalysis_singleVariantMetaAnalysis.R to call
 raremetal on each of the created summary files. Note that these pooled allele 
 frequencies are needed to create the group files further downstream.
 
+After doing this, due to issues with the {study} wildcard in the next Snakefile, 
+you will need to run the scripts metaAnalysis_imp0SummaryFiles.R and metaAnalysis_all0CovFiles.R
+in order to output the covfiles necessary to run RAREMETAL.
+
 In the second Snakemake pipeline (Snakefile is just called Snakefile), we perform 
 the analysis using external covariance similar to what is done in the other directories. 
 
