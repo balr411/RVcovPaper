@@ -1,4 +1,4 @@
-#Script that does the memory comparison between two-stage and full approaches
+#Script that does the memory comparison between two-stage and one-stage methods
 #for chromosome 2, mean sphered cell volume, and pLOF + missense(broad) mask
 #using GNU time
 

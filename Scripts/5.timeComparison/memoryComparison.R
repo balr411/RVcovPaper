@@ -5,7 +5,7 @@ library("RVcov")
 
 p <- arg_parser("Script that calls the agg_test() function from our package on chromosome 2")
 
-p <- add_argument(p, "--twoStage", help = "Perform two-stage approach?")
+p <- add_argument(p, "--twoStage", help = "Perform two-stage method?")
 p <- add_argument(p, "--scoreStat", help = "Score statistic file")
 p <- add_argument(p, "--vcf", help = "Name of refrence panel VCF file")
 p <- add_argument(p, "--groupFile", help = "Name of group file")
